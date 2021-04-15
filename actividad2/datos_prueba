@@ -1,0 +1,36 @@
+# Created by Octave 6.1.0, Wed Mar 24 20:28:08 2021 GMT <unknown@JJFG-ASUS>
+# name: M_prueba
+# type: matrix
+# rows: 4
+# columns: 4
+0.7 4 -7.4 4.3
+-1.4 8 2.8 -0.6
+7 0 1 -2
+1.4 0.8 2.75 6.25
+
+# name: b_prueba
+# type: matrix
+# rows: 4
+# columns: 1
+7
+4
+8
+3
+
+# name: M_pruebaC
+# type: matrix
+# rows: 4
+# columns: 4
+0.0125 -0.0042 0 0
+-0.0042 0.0178 -0.0056 -0.0050
+0 -0.0056 0.0146 -0.0028
+0 -0.0050 -0.0028 0.0078
+
+# name: b_pruebaC
+# type: matrix
+# rows: 4
+# columns: 1
+-0.01
+0
+0
+0.01
