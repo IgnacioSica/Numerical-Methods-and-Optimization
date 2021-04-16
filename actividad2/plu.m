@@ -1,6 +1,4 @@
 function [P,L,U] = plu (M)
-  %%[P, L, U] = plu(m1)
-  
   n = size(M);
   P = eye(n);
   L = zeros(n);
