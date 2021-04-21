@@ -35,7 +35,7 @@
 % calcule la matriz inversa de una matriz simétrica positiva definida dada 
 % utilizando la descomposición de Cholesky. 
 
-load datos
+% load datos
 
 %% Ejercicio n#1
 % Utilizando los algoritmos desarrollados resuelva los sistemas de ecuaciones 
@@ -44,6 +44,36 @@ load datos
 % calcule el error relativo con respecto a los vectores b $E_i=(a_i*y - b_i)/b_i$, 
 % el número de dígitos significativos que se obtienen y el número de condición 
 % de la matriz de coeficientes. Comente sus resultados.
+
+tic();
+y1_plu = sem_plu(a1, b1);
+time_a1_plu = toc ()
+error_y1_plu = relative_error(a1,b1,y1_plu)
+
+tic();
+y2_plu = sem_plu(a2, b2);
+time_a2_plu = toc ()
+error_y2_plu = relative_error(a2,b2,y2_plu)
+
+tic();
+y3_plu = sem_plu(a3, b3);
+time_a3_plu = toc ()
+error_y3_plu = relative_error(a3,b3,y3_plu)
+
+tic();
+y4_plu = sem_plu(a4, b4);
+time_a4_plu = toc ()
+error_y4_plu = relative_error(a4,b4,y4_plu)
+
+tic();
+y5_plu = sem_plu(a5, b5);
+time_a5_plu = toc ()
+error_y5_plu = relative_error(a5,b5,y5_plu)
+
+tic();
+y6_plu = sem_plu(a6, b6);
+time_a6_plu = toc ()
+error_y6_plu = relative_error(a6,b6,y6_plu)
 
 %% Ejercicio n#2
 % Utilizando los algoritmos desarrollados resuelva los sistemas de ecuaciones 
@@ -54,11 +84,62 @@ load datos
 % obtienen y el número de condición de la matriz de coeficientes. Comente sus 
 % resultados, compare el desempeño de los algoritmos ente sí.
 
+%  tic();
+%  y1 = sem_plu(m1, b1);
+%  elapsed_time_m1_p = toc ();
+%  error_y1 = relative_error(m1,b1,y1);
+%  mean(error_y1)
+%  tic();
+%  y1 = sem_cholesky(m1, b1);
+%  elapsed_time_m1_c = toc ();
+%  error_y1 = relative_error(m1,b1,y1);
+%  mean(error_y1)
+
 %% Ejercicio n#3
 % Calcule la inversa de las matrices $m_i$ utilizando la función que emplea la 
 % descomposición PLU y la función que emplea la descomposición de Cholesky. 
 % Reporte el tiempo de ejecución de las funciones, calcule el error relativo 
 % con respecto a la matriz identidad del producto $m_im_i^{-1}$. Comente sus resultados.
+
+tic ();
+m1_inv_chol = rm_cholesky(m1);
+elapsed_time_m1_c = toc ();
+
+tic ();
+m1_inv_plu = rm_plu(m1);
+elapsed_time_m1_p = toc ();
+
+tic ();
+m2_inv_chol = rm_cholesky(m2);
+elapsed_time_m2_c = toc ();
+
+tic ();
+m2_inv_plu = rm_plu(m2);
+elapsed_time_m2_p = toc ();
+
+tic ();
+m3_inv_chol = rm_cholesky(m3);
+elapsed_time_m3_c = toc ();
+
+tic ();
+m3_inv_plu = rm_plu(m3);
+elapsed_time_m3_p = toc ();
+
+tic ();
+m4_inv_chol = rm_cholesky(m4);
+elapsed_time_m4_c = toc ();
+
+tic ();
+m4_inv_plu = rm_plu(m4);
+elapsed_time_m4_p = toc ();
+
+% tic ();
+% m5_inv_chol = rm_cholesky(m5);
+% elapsed_time_m5_c = toc ();
+
+% tic ();
+% m5_inv_plu = rm_plu(m5);
+% elapsed_time_m5_p = toc ();
 
 %% Bibliografia
 
