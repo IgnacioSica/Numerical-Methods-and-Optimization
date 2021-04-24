@@ -42,11 +42,3 @@ function [y,msg] = SustitucionAtras (L, b)
  % disp('Algoritmo finalizo normalmente');  
     
 endfunction
-  
-  %%for ii=2:nL
-    %%y(nL-ii + 1) = b(nL-ii + 1)-L(nL-ii + 1,nL-ii-1 + 2:end)*y(nL-ii-1 + 2:end);
-    %%pivote = L(nL-ii + 1,nL-ii + 1);
-    %%if (pivote ~=1)
-      %%y(nL-ii + 1) = y(nL-ii + 1)/pivote;
-    %%endif
-  %%endfor

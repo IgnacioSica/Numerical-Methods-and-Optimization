@@ -35,7 +35,7 @@
 % calcule la matriz inversa de una matriz simétrica positiva definida dada 
 % utilizando la descomposición de Cholesky. 
 
-% load datos
+load datos
 
 %% Ejercicio n#1
 % Utilizando los algoritmos desarrollados resuelva los sistemas de ecuaciones 
@@ -45,35 +45,28 @@
 % el número de dígitos significativos que se obtienen y el número de condición 
 % de la matriz de coeficientes. Comente sus resultados.
 
-tic();
-y1_plu = sem_plu(a1, b1);
-time_a1_plu = toc ()
-error_y1_plu = relative_error(a1,b1,y1_plu)
+disp("a1:")
+ej1(a1, b1);
 
-tic();
-y2_plu = sem_plu(a2, b2);
-time_a2_plu = toc ()
-error_y2_plu = relative_error(a2,b2,y2_plu)
+disp("a2:")
+ej1(a2, b2);
 
-tic();
-y3_plu = sem_plu(a3, b3);
-time_a3_plu = toc ()
-error_y3_plu = relative_error(a3,b3,y3_plu)
+disp("a3:")
+ej1(a3, b3);
 
-tic();
-y4_plu = sem_plu(a4, b4);
-time_a4_plu = toc ()
-error_y4_plu = relative_error(a4,b4,y4_plu)
+disp("a4:")
+ej1(a4, b4);
 
-tic();
-y5_plu = sem_plu(a5, b5);
-time_a5_plu = toc ()
-error_y5_plu = relative_error(a5,b5,y5_plu)
+disp("a5:")
+ej1(a5, b5);
 
-tic();
-y6_plu = sem_plu(a6, b6);
-time_a6_plu = toc ()
-error_y6_plu = relative_error(a6,b6,y6_plu)
+%%
+% Se puede observar que la cantidad de digitos significativos es de los resultados
+% ronda entre los 14 en el caso de mayor precision en las matrices mas pequeñas
+% y 12 en el caso de las matrices mas grandes. Tambien se puede notar como a medida
+% que el tamaño de la matriz aumenta la cantidad de tiempo que cuesta computar las
+% operaciones aumenta de manera considerable. Este tiempo varia desde la milesima de
+% segundos hasta 6 segundo en el caso de la matriz a5
 
 %% Ejercicio n#2
 % Utilizando los algoritmos desarrollados resuelva los sistemas de ecuaciones 
@@ -84,16 +77,31 @@ error_y6_plu = relative_error(a6,b6,y6_plu)
 % obtienen y el número de condición de la matriz de coeficientes. Comente sus 
 % resultados, compare el desempeño de los algoritmos ente sí.
 
-%  tic();
-%  y1 = sem_plu(m1, b1);
-%  elapsed_time_m1_p = toc ();
-%  error_y1 = relative_error(m1,b1,y1);
-%  mean(error_y1)
-%  tic();
-%  y1 = sem_cholesky(m1, b1);
-%  elapsed_time_m1_c = toc ();
-%  error_y1 = relative_error(m1,b1,y1);
-%  mean(error_y1)
+disp("m1:")
+ej2(m1, b1);
+
+disp("m2:")
+ej2(m2, b2);
+
+disp("m3:")
+ej2(m3, b3);
+
+disp("m4:")
+ej2(m4, b4);
+
+disp("m5:")
+ej2(m5, b5);
+
+%%
+% Se puede observar que la cantidad de digitos significativos es de los resultados
+% ronda entre los 13 en el caso de mayor precision en las matrices mas pequeñas
+% y 9 en el caso de las matrices mas grandes. Tambien se puede notar como a medida
+% que el tamaño de la matriz aumenta la cantidad de tiempo que cuesta computar las
+% operaciones aumenta de manera considerable. Este tiempo varia desde la milesima de
+% segundos hasta 6 segundo en el caso de la matriz m5. Otra aspecto a mencionar es 
+% es que el numero de condicion de las matrices aumenta exponencialmente conforme
+% al aumento del tamaño de las matrices. En el caso de la martiz mas pequeña este 
+% numero es 18324 y en el caso de la matriz mas grande es 2.79381e+08
 
 %% Ejercicio n#3
 % Calcule la inversa de las matrices $m_i$ utilizando la función que emplea la 
@@ -101,47 +109,77 @@ error_y6_plu = relative_error(a6,b6,y6_plu)
 % Reporte el tiempo de ejecución de las funciones, calcule el error relativo 
 % con respecto a la matriz identidad del producto $m_im_i^{-1}$. Comente sus resultados.
 
-tic ();
-m1_inv_chol = rm_cholesky(m1);
-elapsed_time_m1_c = toc ();
+disp("m1:")
+ej3(m1);
 
-tic ();
-m1_inv_plu = rm_plu(m1);
-elapsed_time_m1_p = toc ();
+disp("m2:")
+ej3(m2);
 
-tic ();
-m2_inv_chol = rm_cholesky(m2);
-elapsed_time_m2_c = toc ();
+disp("m3:")
+ej3(m3);
 
-tic ();
-m2_inv_plu = rm_plu(m2);
-elapsed_time_m2_p = toc ();
+disp("m4:")
+ej3(m4);
 
-tic ();
-m3_inv_chol = rm_cholesky(m3);
-elapsed_time_m3_c = toc ();
-
-tic ();
-m3_inv_plu = rm_plu(m3);
-elapsed_time_m3_p = toc ();
-
-tic ();
-m4_inv_chol = rm_cholesky(m4);
-elapsed_time_m4_c = toc ();
-
-tic ();
-m4_inv_plu = rm_plu(m4);
-elapsed_time_m4_p = toc ();
-
-% tic ();
-% m5_inv_chol = rm_cholesky(m5);
-% elapsed_time_m5_c = toc ();
-
-% tic ();
-% m5_inv_plu = rm_plu(m5);
-% elapsed_time_m5_p = toc ();
+%%
+% Se puede observar que la cantidad de digitos significativos es de los resultados
+% ronda entre los 13 en el caso de mayor precision en las matrices mas pequeñas
+% y 10 en el caso de las matrices mas grandes. Tambien se puede notar como a medida
+% que el tamaño de la matriz aumenta la cantidad de tiempo que cuesta computar las
+% operaciones aumenta de manera considerable. Este tiempo varia desde la milesima de
+% segundos hasta casi 3 segundo en el caso de la matriz m5. Tambien se puede destacar
+% que en la mayoria de los casos el algoritmo de PLU demora menos tiempo que el Cholesky
+% siendo esto lo opuesto a lo que uno esperaria ua que el de cholesky es una optiomizacion 
+% del primero. Esto se debe a que los mismo se conforman de distintas operaciones 
+% fundamentales; en el caso de Cholesky se utiliza la raiz cuadrada que es una operacion
+% significativamente costosa
 
 %% Bibliografia
+% *Eric Walter*, Springer, Numerical Methods and Optimization
+%
+% *Richard Khoury* & Douglas Wilhelm Harder, Springer
+%     Numerical Methods and Modelling for Engineering
+%  
+% *Javier Segura*, Universidad de Cantabria, Introduccion al analisis numerico
+%     (https://personales.unican.es/segurajj/intro.pdf)
+%
+% *Errors for Linear Systems* 
+%     (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)
+%
+% *Inv Function*
+%     (https://octave.sourceforge.io/octave/function/inv.html)
+%
 
-%% Codigo
-# <include>act_a2.m</include>
+%% Descomposición Plu
+# <include>plu.m</include>
+
+%% Descomposición cholesky
+# <include>cholesky.m</include>
+
+%% Sistemas de ecuaciones x PLU 
+# <include>sem_plu.m</include>
+
+%% Sistemas de ecuaciones x Cholesky
+# <include>sem_cholesky.m</include>
+
+%% Matriz inversa x PLU
+# <include>rm_plu.m</include>
+
+%% Matriz inversa x Cholesky
+# <include>rm_cholesky.m</include>
+
+%% SustitucionAdelante
+# <include>SustitucionAdelante.m</include>
+
+%% SustitucionAtras
+# <include>SustitucionAtras.m</include>
+
+%% Codigo ej1
+# <include>ej1.m</include>
+
+%% Codigo ej2
+# <include>ej2.m</include>
+
+%% Codigo ej3
+# <include>ej3.m</include>
+

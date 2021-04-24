@@ -1,39 +1,3 @@
-## Copyright (C) 2020 Jose-Job
-## 
-## This program is free software: you can redistribute it and/or modify it
-## under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful, but
-## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see
-## <https://www.gnu.org/licenses/>.
-
-## -*- texinfo -*- 
-## @deftypefn {} {[@var{y}, @var{msg}] =} SustitucionAdelante (@var{L}, @var{b})
-##
-## Solucion del sistema  @var{L}@var{y} = @var{b} por sustitución hacia adelante donde
-##
-## @var{L} es una matriz triangular inferior
-##
-## @var{b} un vector columna de constantes
-##
-## @var{y} un vector columna, solucion del sistema de ecuaciones
-##
-## @var{msg} es igual a 1 si la función resolvió exitosamente el
-## sistema de ecuaciones, 0 si no pudo resolver el sistema de ecuaciones
-##
-## @seealso{}
-## @end deftypefn
-
-## Author: Jose-Job <Jose-Job@JJFG-ASUS>
-## Created: 2020-03-25
-
 function [y,msg] = SustitucionAdelante (L, b)
   [mL,nL] = size(L);
   [mb,nb] = size(b);

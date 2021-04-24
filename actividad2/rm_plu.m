@@ -6,8 +6,8 @@ function [Minv] = rm_plu(M)
   Minv = zeros(n);
   
   for(i = 1 : n)
-    m_i = SustitucionAdelante(L, P'*I(:, i));
+    m_i = SustitucionAdelante(L, P*I(:, i));
     x_i = SustitucionAtras(U, m_i);
-    Minv(i, :) = x_i;
+    Minv(:, i) = x_i;
   endfor
 endfunction
