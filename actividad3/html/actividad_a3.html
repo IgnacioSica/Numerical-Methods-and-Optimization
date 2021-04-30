@@ -76,9 +76,10 @@ h2 a, h2 a:visited {
 <li><a href="#node6">SOR</a></li>
 <li><a href="#node7">Gradiente conjugado</a></li>
 <li><a href="#node8">SustitucionAdelante</a></li>
-<li><a href="#node9">SustitucionAtras</a></li>
-<li><a href="#node10">Codigo ej1</a></li>
-<li><a href="#node11">Codigo ej2</a></li>
+<li><a href="#node9">forward</a></li>
+<li><a href="#node10">SustitucionAtras</a></li>
+<li><a href="#node11">Codigo ej1</a></li>
+<li><a href="#node12">Codigo ej2</a></li>
 </ul>
 <h2><a id="node1">Programe los siguientes algoritmos:</a></h2>
 <p>Algoritmo de Jacobi para la solución de sistemas de ecuaciones lineales.</p>
@@ -90,18 +91,19 @@ ecuaciones lineales.</p>
 lineales (Tabla 3.1; Walter 2014)</p>
 
 <pre class="oct-code">load datos1
-load datos2
 
-a = {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14};
-b = {b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14};</pre>
+a = {a1,a2,a3,a4,a5};
+b = {b1,b2,b3,b4,b5};</pre>
 <h2><a id="node2">Ejercicio n#1</a></h2>
 <p>Utilizando el archivo datos1 resolver los sistemas de ecuaciones $a_ix_i=b_i$,
 para i=1,2,...,5, con los algoritmos de Jacobi, SOR con ?=0.5,1,1.5 y Gradiente
 Conjugado. Compare los errores relativos con respecto a los vectores bi y el
 tiempo de solución necesario. Comente sus resultados.</p>
 
-<pre class="oct-code">tol      = 0.00000001;
-max_iter = 250;
+<pre class="oct-code">disp(<span class="string">"Ejercicio 1:"</span>), disp(<span class="string">""</span>)
+
+tol      = 0.0000001;
+max_iter = 4500;
 
 <span class="keyword">for</span> i = 1 : 5
   printf(<span class="string">"a%d: "</span>, i), disp(<span class="string">""</span>)
@@ -109,119 +111,147 @@ max_iter = 250;
   disp(<span class="string">""</span>)
 <span class="keyword">endfor</span></pre>
 
-<pre class="oct-code-output">a1: 
+<pre class="oct-code-output">Ejercicio 1:
+ 
+a1: 
 Jacobi:
-  Time elapsed: 0.000320911s
-  Error: 3.44529e-09
-  Total iterations: 10
+  Time elapsed: 0.000219107s
+  Error: 6.99504e-08
+  Total iterations: 8
 SOR 0.5:
-  Time elapsed: 0.00363684s
-  Error: 6.9108e-09
-  Total iterations: 24
+  Time elapsed: 0.00261188s
+  Error: 6.27048e-08
+  Total iterations: 31
 SOR 1.0:
-  Time elapsed: 0.00364614s
-  Error: 6.9108e-09
-  Total iterations: 24
-SOR 1.5:
-  Time elapsed: 0.00336504s
-  Error: 6.9108e-09
-  Total iterations: 24
+  Time elapsed: 0.000573158s
+  Error: 1.83432e-08
+  Total iterations: 7
+SOR 1.6:
+  Time elapsed: 0.00397301s
+  Error: 6.31762e-08
+  Total iterations: 33
 Gradiente Conjugado:
-  Time elapsed: 0.00206089s
+  Time elapsed: 0.0136571s
   Error: 3.24057e-18
   Total iterations: 5
  
 a2: 
 Jacobi:
-  Time elapsed: 0.000381947s
-  Error: 6.37666e-09
-  Total iterations: 20
+  Time elapsed: 0.00141001s
+  Error: 5.22151e-08
+  Total iterations: 17
 SOR 0.5:
-  Time elapsed: 0.00914907s
-  Error: 9.57453e-09
-  Total iterations: 37
+  Time elapsed: 0.049155s
+  Error: 8.48051e-08
+  Total iterations: 47
 SOR 1.0:
-  Time elapsed: 0.00914192s
-  Error: 9.57453e-09
-  Total iterations: 37
-SOR 1.5:
-  Time elapsed: 0.0089612s
-  Error: 9.57453e-09
-  Total iterations: 37
+  Time elapsed: 0.013808s
+  Error: 5.34291e-08
+  Total iterations: 13
+SOR 1.6:
+  Time elapsed: 0.0344951s
+  Error: 6.69823e-08
+  Total iterations: 33
 Gradiente Conjugado:
-  Time elapsed: 0.00281215s
+  Time elapsed: 0.019558s
   Error: 8.44988e-10
   Total iterations: 9
  
 a3: 
 Jacobi:
-  Time elapsed: 0.0039959s
-  Error: 3.74185e+59
-  Total iterations: 250
+  Time elapsed: 0.0528769s
+  Error: 9.55273e-08
+  Total iterations: 164
 SOR 0.5:
-  Time elapsed: 0.0229161s
-  Error: 0.000306486
-  Total iterations: 250
+  Time elapsed: 0.910161s
+  Error: 9.97661e-08
+  Total iterations: 428
 SOR 1.0:
-  Time elapsed: 0.0231819s
-  Error: 0.000306486
-  Total iterations: 250
-SOR 1.5:
-  Time elapsed: 0.0233068s
-  Error: 0.000306486
-  Total iterations: 250
+  Time elapsed: 0.284088s
+  Error: 9.49895e-08
+  Total iterations: 142
+SOR 1.6:
+  Time elapsed: 0.0795562s
+  Error: 6.59567e-08
+  Total iterations: 32
 Gradiente Conjugado:
-  Time elapsed: 0.00120091s
-  Error: 5.80399e-13
-  Total iterations: 3
+  Time elapsed: 0.0174699s
+  Error: 9.62453e-08
+  Total iterations: 14
  
 a4: 
 Jacobi:
-  Time elapsed: 0.00406003s
-  Error: 3.26471e+103
-  Total iterations: 250
+  Time elapsed: 3.84483s
+  Error: 9.97143e-08
+  Total iterations: 2373
 SOR 0.5:
-  Time elapsed: 0.0289621s
-  Error: 0.000111675
-  Total iterations: 250
+  Time elapsed: 63.1061s
+  Error: 8.04135e-05
+  Total iterations: 4500
 SOR 1.0:
-  Time elapsed: 0.02895s
-  Error: 0.000111675
-  Total iterations: 250
-SOR 1.5:
-  Time elapsed: 0.0288641s
-  Error: 0.000111675
-  Total iterations: 250
+  Time elapsed: 38.2843s
+  Error: 9.95356e-08
+  Total iterations: 2597
+SOR 1.6:
+  Time elapsed: 9.03455s
+  Error: 9.96408e-08
+  Total iterations: 671
 Gradiente Conjugado:
-  Time elapsed: 0.00149608s
-  Error: 2.74776e-09
-  Total iterations: 4
+  Time elapsed: 0.023052s
+  Error: 1.76127e-08
+  Total iterations: 14
  
 a5: 
 Jacobi:
-  Time elapsed: 0.0040729s
-  Error: 6.51548e+134
-  Total iterations: 250
+  Time elapsed: 25.0019s
+  Error: 1.39013e-06
+  Total iterations: 4500
 SOR 0.5:
-  Time elapsed: 0.0345919s
-  Error: 6.64863e-05
-  Total iterations: 250
+  Time elapsed: 286.458s
+  Error: 0.0711152
+  Total iterations: 4500
 SOR 1.0:
-  Time elapsed: 0.0346479s
-  Error: 6.64863e-05
-  Total iterations: 250
-SOR 1.5:
-  Time elapsed: 0.0348909s
-  Error: 6.64863e-05
-  Total iterations: 250
+  Time elapsed: 287.452s
+  Error: 0.000519417
+  Total iterations: 4500
+SOR 1.6:
+  Time elapsed: 163.867s
+  Error: 9.96586e-08
+  Total iterations: 2504
 Gradiente Conjugado:
-  Time elapsed: 0.00240493s
-  Error: 7.18619e-14
-  Total iterations: 7
+  Time elapsed: 0.06253s
+  Error: 1.77779e-08
+  Total iterations: 13
  
 </pre>
 
-<p>Comentarios sobre resultados</p>
+<p>A modo de comienzo de analisis vale la pena descatar como a medida que aumenta el
+tamano de las matrices la cantidad de computo necesario para resolver los sistemas
+de ecuaciones mediante todos los metodos de aproximacion trabajados aumenta
+considerablemente. A partir de las diferentes pruebas se pueden destacar varios
+puntos significativos que muestran las diferencias entre los algoritmos:
+<b>(1)</b> es que el algoritmo del gradiente conjugado es extremadamente rapido en
+comparacion con los otros dos, no solo necesita de un numero de iteraciones
+insignificantes con respecto a los otros sino que tambien alcanza una precision
+que el algoritmo de SOR y jacobi en ocaciones ni siquiera alcanza, es muy visible
+ahora como es un algoritmo tan influyente en el mundo actual y como este
+ayudo al progreso de la ciencia habilitando a cientificos a resolver sistemas en
+cuestion de minutos que antes podrian significar dias de computacion. <b>(2)</b> se nota
+como a medida que aumenta el tamano de las matrices es cada vez mas complicado
+alcanzar la tolerancia deseada, en todos los algoritmos es igual. <b>(3)</b> dependiendo
+de la relajacion en el algoritmo de SOR se pueden obtener resultados muy distintos.
+En el caso de que de la bajo relajacion se puede notar como el algoritmo necesita
+un gran numero de iteraciones y en el caso de las dos matrices mas grandes ni siquiera
+con 4500 iteraciones logra la tolerancia deseada. A medida que aumenta el omega, es
+decir, se sobre relaja, los resultados son muy distintos convergiendo hacia la
+solucion de una manera mucho mas rapida y asi conseguir una tolerancia mejor en
+menos iteraciones(decidi cambiar el omega de 1.5 por 1.6 ya que estuve realizando
+pruebas y con 1.6 se convergia de manera mas rapido hacia el resultado). <b>(4)</b>
+Se puede notar como el algoritmo de jacobi necesita de mas iteraciones para llegar
+a la tolerancia deseada que el algoritmo de SOR con una omega mayor a uno pero sin
+embargo necesita de menos tiempo para resolverlo, esto se debe a la naturaleza de
+cada algoritmo siendo la iteracion en el algoritmo de SOR mas costosa computacionalmente
+hablando que la de jacobi.</p>
 <h2><a id="node3">Ejercicio n#2</a></h2>
 <p>Utilizando el archivo datos2  resolver los sistemas de ecuaciones $a_ix_i=b_i$,
 para i=3,...,14, utilizando la descomposición PLU. Calcule los errores
@@ -231,92 +261,128 @@ las entradas, calculo los números de condición de los sistemas (que coincidan
 con la definición del libro) y concluya si los resultados obtenidos se pueden
 explicar con esta información. Justifique sus conclusiones.</p>
 
-<pre class="oct-code"><span class="keyword">for</span> i = 3 : 13
+<pre class="oct-code">load datos2
+
+a = {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14};
+b = {b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14};
+
+disp(<span class="string">"Ejercicio 2:"</span>), disp(<span class="string">""</span>)
+
+<span class="keyword">for</span> i = 3 : 13
   printf(<span class="string">"a%d: "</span>, i), disp(<span class="string">""</span>)
   ej2(a{i}, b{i});
   disp(<span class="string">""</span>)
 <span class="keyword">endfor</span></pre>
 
-<pre class="oct-code-output">a3: 
+<pre class="oct-code-output">Ejercicio 2:
+ 
+a3: 
   PLU
-  Time elapsed: 0.000777006s
+  Time elapsed: 0.00493908s
   Error 1: 0
   Error 2: 6.313e-16
   Cifras significativas: 14
+  Número de condición: 524.057
  
 a4: 
   PLU
-  Time elapsed: 0.000601053s
+  Time elapsed: 0.00357604s
   Error 1: 0
   Error 2: 1.51191e-13
   Cifras significativas: 12
+  Número de condición: 15513.7
  
 a5: 
   PLU
-  Time elapsed: 0.000769854s
+  Time elapsed: 0.004807s
   Error 1: 1.62117e-16
   Error 2: 3.70729e-13
   Cifras significativas: 12
+  Número de condición: 476607
  
 a6: 
   PLU
-  Time elapsed: 0.000966072s
+  Time elapsed: 0.0058682s
   Error 1: 8.964e-17
   Error 2: 2.48618e-10
   Cifras significativas: 9
+  Número de condición: 1.49511e+07
  
 a7: 
   PLU
-  Time elapsed: 0.00115705s
+  Time elapsed: 0.00721979s
   Error 1: 6.46991e-17
   Error 2: 1.29741e-08
   Cifras significativas: 7
+  Número de condición: 4.75367e+08
  
 a8: 
   PLU
-  Time elapsed: 0.00137806s
+  Time elapsed: 0.00868487s
   Error 1: 6.55824e-17
   Error 2: 1.19995e-07
   Cifras significativas: 6
+  Número de condición: 1.52576e+10
  
 a9: 
   PLU
-  Time elapsed: 0.00162101s
+  Time elapsed: 0.0103052s
   Error 1: 8.29979e-17
   Error 2: 1.46937e-05
   Cifras significativas: 4
+  Número de condición: 4.93154e+11
  
 a10: 
   PLU
-  Time elapsed: 0.00186801s
+  Time elapsed: 0.011987s
   Error 1: 1.20196e-16
   Error 2: 0.000267894
   Cifras significativas: 3
+  Número de condición: 1.60244e+13
  
 a11: 
   PLU
-  Time elapsed: 0.002141s
+  Time elapsed: 0.013849s
   Error 1: 1.24396e-16
   Error 2: 0.000506984
   Cifras significativas: 2
+  Número de condición: 5.22268e+14
  
 a12: 
   PLU
-  Time elapsed: 0.00257111s
+  Time elapsed: 0.01577s
   Error 1: 1.20395e-16
   Error 2: 0.148813
   Cifras significativas: 0
+  Número de condición: 17514731907091464
  
 a13: 
   PLU
-  Time elapsed: 0.00289416s
+  Time elapsed: 0.017817s
   Error 1: 2.05618e-16
   Error 2: 7.2455
   Cifras significativas: -2
+  Número de condición: 3344143497338461184
  
 </pre>
 
-<p>Comentarios sobre resultados</p>
+<p>Con los resultado de este ejercicio se pueden sacar resoluciones muy intersantes
+en cuanto a los errores con respecto a la pre-imagen e imagen de las funciones.
+A medida que las funciones aumentan se puede notar como el error con respecto a los
+vectores bi disminuye y en todos los casos uno podria decir que se trata de un resultado
+muy confiable pero, cuando se analiza el error con respecto a la solucion verdadera
+del sistema se puede observar como el este segundo error es mucho mas grande y en
+el caso de las matrices mas grandes cuenta con <b>0</b> cifras significativas. Con respecto
+al tiempo necesario para resolver los sitemas se puede destacar que es muy chico
+no superando el segundo en ningun caso. Otro elemento a destacar del ejercicio es
+nuevamente la relevancia del numero de condicion, se puede observar como por cada
+orden de magnitud del numero de condicion disminuye en uno la cantida de digitos
+significativos. Con un numero de condicion lo suficientemente grande se llega al
+punto de no obtener ninguna cifra significativa ya que la precicion con la que se
+trabaja no es suficiente. Con esto en mente se puede concluir que los algoritmos de
+aproximacion es muy superiror al algoritmo de resolucion mediante plu ya que
+se pueden obtener resultados con una tolerancia mucho menor y en matrices significativamente
+mas grandes.</p>
 <h2><a id="node4">Bibliografia</a></h2>
 <p><b>Eric Walter</b>, Springer, Numerical Methods and Optimization</p>
 
@@ -352,10 +418,9 @@ a13:
   <span class="keyword">endwhile</span>
   X_sol = X1;
   total_iter = contador;
-<span class="keyword">endfunction</span>
-</pre>
+<span class="keyword">endfunction</span></pre>
 <h2><a id="node6">SOR</a></h2>
-<pre class="pre-code"><span class="keyword">function</span> [X_sol,err,total_iter] = SOR (A, b, X0, om, tolerance, max_iter)
+<pre class="pre-code"><span class="keyword">function</span> [X_sol,err,total_iter] = SOR (A, b, X, om, tolerance, max_iter)
   
   D = diag(diag(A));
   L = tril(A, -1);
@@ -364,17 +429,19 @@ a13:
   err = 10;
   counter = 0;
   
+  j = D + om * L;
+  k = om * b;
+  i = (om * U + (om -1) * D);
+  
   <span class="keyword">while</span> err &gt; tolerance &amp;&amp; counter &lt; max_iter
     
-    X1 = SustitucionAdelante(D + om * L, om * b - (om * U + (om -1) * D) * X0);
-    
-    err = norm(X1-X0);
+    X = forward(j, k - i * X);
+    err = norm(A * X - b) / norm(b);
     counter = counter + 1;
-    X0 = X1;
     
   <span class="keyword">endwhile</span>
   
-  X_sol = X1;
+  X_sol = X;
   total_iter = counter;
   
 <span class="keyword">endfunction</span></pre>
@@ -409,32 +476,9 @@ a13:
   
 <span class="keyword">endfunction</span></pre>
 <h2><a id="node8">SustitucionAdelante</a></h2>
-<pre class="pre-code"><span class="keyword">function</span> [y,msg] = SustitucionAdelante (L, b)
+<pre class="pre-code"><span class="keyword">function</span> [y] = SustitucionAdelante (L, b)
   [mL,nL] = size(L);
   [mb,nb] = size(b);
-  
-  <span class="comment">## </span>
-  <span class="keyword">if</span> mL ~= nL
-    msg = 0;
-    y = inf;
-    disp(<span class="string">'L no es cuadrada'</span>)
-    return; <span class="comment"># fin de la funcion</span>
-  <span class="keyword">elseif</span> (mL ~= mb) || nb ~= 1
-    msg = 0;
-    y = inf;
-    disp(<span class="string">'L y b son de dimensiones incompatibles'</span>)
-    return; <span class="comment"># fin de la funcion</span>
-  <span class="keyword">endif</span>
-  <span class="keyword">for</span> ii=1:mL
-    <span class="keyword">if</span> abs(L(ii,ii)) &lt; eps
-      msg = 0;
-      y = inf;
-      disp(<span class="string">'L tiene pivote menor que eps'</span>)
-      return; <span class="comment"># fin de la funcion</span>
-    <span class="keyword">endif</span>
-  <span class="keyword">endfor</span>
-  
-  <span class="comment">## Inicio del algoritmo</span>
   y = 0*b; 
   
   <span class="keyword">if</span> (L(1,1)==1)
@@ -448,14 +492,18 @@ a13:
     <span class="keyword">if</span> (pivote ~=1)
       y(ii) = y(ii)/pivote;
     <span class="keyword">endif</span>
-  <span class="keyword">endfor</span>
-  
-  msg = 1; 
- <span class="comment">% disp('Algoritmo finalizo normalmente');  </span>
-    
-  <span class="keyword">endfunction</span>
+  <span class="keyword">endfor</span>  
+<span class="keyword">endfunction</span>
   </pre>
-<h2><a id="node9">SustitucionAtras</a></h2>
+<h2><a id="node9">forward</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> x = forward (A, b)
+  n = length(b);
+  x(1,1) = b(1)/A(1,1);
+  <span class="keyword">for</span> i = 2:n
+      x(i,1)=(b(i)-A(i,1:i-1)*x(1:i-1,1))./A(i,i);
+  <span class="keyword">end</span>
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node10">SustitucionAtras</a></h2>
 <pre class="pre-code"><span class="keyword">function</span> [y,msg] = SustitucionAtras (U, b)
   [mU,nU] = size(U);
   [mb,nb] = size(b);
@@ -500,18 +548,16 @@ a13:
  <span class="comment">% disp('Algoritmo finalizo normalmente');  </span>
     
 <span class="keyword">endfunction</span></pre>
-<h2><a id="node10">Codigo ej1</a></h2>
+<h2><a id="node11">Codigo ej1</a></h2>
 <pre class="pre-code"><span class="keyword">function</span> ej1 (A, b, tol, Max_iter)
   x = zeros(size(b));
+  
   disp(<span class="string">"Jacobi:"</span>)
   tic();
   [x_sol_jacobi,err,total_iter] = jacobi (A, b, x, tol, Max_iter);
   time = toc ();
   printf(<span class="string">"  Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
-  x_sol_jacobi;
-  err;
   printf(<span class="string">"  Error: %d"</span>, err), disp(<span class="string">""</span>)
-  total_iter;
   printf(<span class="string">"  Total iterations: %d"</span>, total_iter), disp(<span class="string">""</span>)
   
   disp(<span class="string">"SOR 0.5:"</span>)
@@ -519,32 +565,23 @@ a13:
   [x_sol_sor_05,err,total_iter] = SOR(A, b, x, 0.5, tol, Max_iter);
   time = toc ();
   printf(<span class="string">"  Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
-  x_sol_sor_05;
-  err;
   printf(<span class="string">"  Error: %d"</span>, err), disp(<span class="string">""</span>)
-  total_iter;
   printf(<span class="string">"  Total iterations: %d"</span>, total_iter), disp(<span class="string">""</span>)
   
   disp(<span class="string">"SOR 1.0:"</span>)
   tic();
-  [x_sol_sor_10,err,total_iter] = SOR(A, b, x, 0.5, tol, Max_iter);
+  [x_sol_sor_10,err,total_iter] = SOR(A, b, x, 1.0, tol, Max_iter);
   time = toc ();
   printf(<span class="string">"  Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
-  x_sol_sor_10;
-  err;
   printf(<span class="string">"  Error: %d"</span>, err), disp(<span class="string">""</span>)
-  total_iter;
   printf(<span class="string">"  Total iterations: %d"</span>, total_iter), disp(<span class="string">""</span>)
   
-  disp(<span class="string">"SOR 1.5:"</span>)
+  disp(<span class="string">"SOR 1.6:"</span>)
   tic();
-  [x_sol_sor_15,err,total_iter] = SOR(A, b, x, 0.5, tol, Max_iter);
+  [x_sol_sor_15,err,total_iter] = SOR(A, b, x, 1.6, tol, Max_iter);
   time = toc ();
   printf(<span class="string">"  Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
-  x_sol_sor_15;
-  err;
   printf(<span class="string">"  Error: %d"</span>, err), disp(<span class="string">""</span>)
-  total_iter;
   printf(<span class="string">"  Total iterations: %d"</span>, total_iter), disp(<span class="string">""</span>)
   
   disp(<span class="string">"Gradiente Conjugado:"</span>)
@@ -552,13 +589,10 @@ a13:
   [x_sol_gc,err,total_iter] = GC(A, b, x, tol, Max_iter);
   time = toc ();
   printf(<span class="string">"  Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
-  x_sol_gc;
-  err;
   printf(<span class="string">"  Error: %d"</span>, err), disp(<span class="string">""</span>)
-  total_iter;
   printf(<span class="string">"  Total iterations: %d"</span>, total_iter), disp(<span class="string">""</span>)
 <span class="keyword">endfunction</span></pre>
-<h2><a id="node11">Codigo ej2</a></h2>
+<h2><a id="node12">Codigo ej2</a></h2>
 <pre class="pre-code"><span class="keyword">function</span> ej2 (A, b)
   
   disp (<span class="string">"  PLU"</span>)
@@ -576,7 +610,9 @@ a13:
   Sd=floor(-log10(error/0.5));
   printf(<span class="string">"  Cifras significativas: %d"</span>, Sd),
   disp(<span class="string">""</span>)
-  
+  nc = cond(A);
+  printf(<span class="string">"  Número de condición: %d"</span>, nc),
+  disp(<span class="string">""</span>)
 
 <span class="keyword">endfunction</span></pre>
 
@@ -603,10 +639,9 @@ a13:
 % lineales (Tabla 3.1; Walter 2014)
 
 load datos1
-load datos2
 
-a = {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14};
-b = {b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14};
+a = {a1,a2,a3,a4,a5};
+b = {b1,b2,b3,b4,b5};
 
 %% Ejercicio n#1
 % Utilizando el archivo datos1 resolver los sistemas de ecuaciones $a_ix_i=b_i$,
@@ -614,8 +649,10 @@ b = {b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14};
 % Conjugado. Compare los errores relativos con respecto a los vectores bi y el
 % tiempo de solución necesario. Comente sus resultados.
 
-tol      = 0.00000001;
-max_iter = 250;
+disp("Ejercicio 1:"), disp("")
+
+tol      = 0.0000001;
+max_iter = 4500;
 
 for i = 1 : 5
   printf("a%d: ", i), disp("")
@@ -624,7 +661,34 @@ for i = 1 : 5
 endfor
 
 %%
-% Comentarios sobre resultados
+% A modo de comienzo de analisis vale la pena descatar como a medida que aumenta el
+% tamano de las matrices la cantidad de computo necesario para resolver los sistemas
+% de ecuaciones mediante todos los metodos de aproximacion trabajados aumenta
+% considerablemente. A partir de las diferentes pruebas se pueden destacar varios
+% puntos significativos que muestran las diferencias entre los algoritmos:
+% *(1)* es que el algoritmo del gradiente conjugado es extremadamente rapido en
+% comparacion con los otros dos, no solo necesita de un numero de iteraciones
+% insignificantes con respecto a los otros sino que tambien alcanza una precision
+% que el algoritmo de SOR y jacobi en ocaciones ni siquiera alcanza, es muy visible
+% ahora como es un algoritmo tan influyente en el mundo actual y como este
+% ayudo al progreso de la ciencia habilitando a cientificos a resolver sistemas en
+% cuestion de minutos que antes podrian significar dias de computacion. *(2)* se nota
+% como a medida que aumenta el tamano de las matrices es cada vez mas complicado
+% alcanzar la tolerancia deseada, en todos los algoritmos es igual. *(3)* dependiendo
+% de la relajacion en el algoritmo de SOR se pueden obtener resultados muy distintos.
+% En el caso de que de la bajo relajacion se puede notar como el algoritmo necesita
+% un gran numero de iteraciones y en el caso de las dos matrices mas grandes ni siquiera
+% con 4500 iteraciones logra la tolerancia deseada. A medida que aumenta el omega, es
+% decir, se sobre relaja, los resultados son muy distintos convergiendo hacia la
+% solucion de una manera mucho mas rapida y asi conseguir una tolerancia mejor en
+% menos iteraciones(decidi cambiar el omega de 1.5 por 1.6 ya que estuve realizando
+% pruebas y con 1.6 se convergia de manera mas rapido hacia el resultado). *(4)*
+% Se puede notar como el algoritmo de jacobi necesita de mas iteraciones para llegar
+% a la tolerancia deseada que el algoritmo de SOR con una omega mayor a uno pero sin
+% embargo necesita de menos tiempo para resolverlo, esto se debe a la naturaleza de
+% cada algoritmo siendo la iteracion en el algoritmo de SOR mas costosa computacionalmente
+% hablando que la de jacobi.
+
 
 %% Ejercicio n#2
 % Utilizando el archivo datos2  resolver los sistemas de ecuaciones $a_ix_i=b_i$,
@@ -635,6 +699,13 @@ endfor
 % con la definición del libro) y concluya si los resultados obtenidos se pueden
 % explicar con esta información. Justifique sus conclusiones.
 
+load datos2
+
+a = {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14};
+b = {b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14};
+
+disp("Ejercicio 2:"), disp("")
+
 for i = 3 : 13
   printf("a%d: ", i), disp("")
   ej2(a{i}, b{i});
@@ -642,7 +713,23 @@ for i = 3 : 13
 endfor
 
 %%
-% Comentarios sobre resultados
+% Con los resultado de este ejercicio se pueden sacar resoluciones muy intersantes
+% en cuanto a los errores con respecto a la pre-imagen e imagen de las funciones.
+% A medida que las funciones aumentan se puede notar como el error con respecto a los
+% vectores bi disminuye y en todos los casos uno podria decir que se trata de un resultado
+% muy confiable pero, cuando se analiza el error con respecto a la solucion verdadera
+% del sistema se puede observar como el este segundo error es mucho mas grande y en
+% el caso de las matrices mas grandes cuenta con *0* cifras significativas. Con respecto
+% al tiempo necesario para resolver los sitemas se puede destacar que es muy chico
+% no superando el segundo en ningun caso. Otro elemento a destacar del ejercicio es
+% nuevamente la relevancia del numero de condicion, se puede observar como por cada
+% orden de magnitud del numero de condicion disminuye en uno la cantida de digitos
+% significativos. Con un numero de condicion lo suficientemente grande se llega al
+% punto de no obtener ninguna cifra significativa ya que la precicion con la que se
+% trabaja no es suficiente. Con esto en mente se puede concluir que los algoritmos de
+% aproximacion es muy superiror al algoritmo de resolucion mediante plu ya que
+% se pueden obtener resultados con una tolerancia mucho menor y en matrices significativamente
+% mas grandes.
 
 %% Bibliografia
 % *Eric Walter*, Springer, Numerical Methods and Optimization
@@ -677,6 +764,9 @@ endfor
 
 %% SustitucionAdelante
 # <include>SustitucionAdelante.m</include>
+
+%% forward
+# <include>forward.m</include>
 
 %% SustitucionAtras
 # <include>SustitucionAtras.m</include>

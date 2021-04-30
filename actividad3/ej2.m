@@ -15,6 +15,8 @@ function ej2 (A, b)
   Sd=floor(-log10(error/0.5));
   printf("  Cifras significativas: %d", Sd),
   disp("")
-  
+  nc = cond(A);
+  printf("  Número de condición: %d", nc),
+  disp("")
 
 endfunction

@@ -13,4 +13,3 @@ function [X_sol,err,total_iter] = jacobi (A, b, X0, tol, Max_iter)
   X_sol = X1;
   total_iter = contador;
 endfunction
-

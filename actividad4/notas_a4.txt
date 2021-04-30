@@ -1,0 +1,25 @@
+notas actividad 4
+
+capitulo 5 - serie de taylor
+
+representacion distinta, utilizar una base {1, x-xi, (x-xi)^2}
+
+punto ancla xi, a partir de ese puntos se derscribe el comportamiento de la funcion
+
+f'k es la kesima derivada => f'k(xi) = dk
+
+f(x) = sum((f'k(xi) * (x-xi)^k) / k!)
+
+f(a) = f(xi) + f'(xi) * (a - xi) + (f''(xi) * (a - xi)^2) / 2! + ...
+
+f(x_(i+1)) = sum((f'k(xi) * (x_(i+1) - xi)^k) / k!)
+
+x_(i+1) = xi + h => h = x_(i+1) - xi
+
+f(xi + h) = sum((f'k(xi) * h^k) / k!)
+
+Si truncamos la serie en algun punto lo que nos queda sera un polinomio de grado n que es una aprox de la funcion original
+
+f(xi + h) ~~ sum((f'k(xi) * h^k) / k!)
+
+5.3 analisis de error

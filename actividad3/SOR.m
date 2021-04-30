@@ -1,4 +1,4 @@
-function [X_sol,err,total_iter] = SOR (A, b, X0, om, tolerance, max_iter)
+function [X_sol,err,total_iter] = SOR (A, b, X, om, tolerance, max_iter)
   
   D = diag(diag(A));
   L = tril(A, -1);
@@ -7,17 +7,19 @@ function [X_sol,err,total_iter] = SOR (A, b, X0, om, tolerance, max_iter)
   err = 10;
   counter = 0;
   
+  j = D + om * L;
+  k = om * b;
+  i = (om * U + (om -1) * D);
+  
   while err > tolerance && counter < max_iter
     
-    X1 = SustitucionAdelante(D + om * L, om * b - (om * U + (om -1) * D) * X0);
-    
-    err = norm(X1-X0);
+    X = forward(j, k - i * X);
+    err = norm(A * X - b) / norm(b);
     counter = counter + 1;
-    X0 = X1;
     
   endwhile
   
-  X_sol = X1;
+  X_sol = X;
   total_iter = counter;
   
 endfunction
