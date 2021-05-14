@@ -23,3 +23,15 @@ Si truncamos la serie en algun punto lo que nos queda sera un polinomio de grado
 f(xi + h) ~~ sum((f'k(xi) * h^k) / k!)
 
 5.3 analisis de error
+
+!!!!hacer 6 curvas 
+
+mail de job
+
+jose.flores@ucu.edu.uy
+
+
+
+E(h) = |f(x0+h) - cos(w(x0+h))|
+
+h es logspace de (-3, log10(9.999e-1), 100)

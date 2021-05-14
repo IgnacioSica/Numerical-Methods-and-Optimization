@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Actividad $A_4$.</title>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: 'all' } }
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<style>
+body > * {
+  max-width: 42em;
+}
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  padding-left: 7.5em;
+  padding-right: 7.5em;
+}
+pre, code {
+  max-width: 50em;
+  font-family: monospace;
+}
+pre.oct-code {
+  border: 1px solid Grey;
+  padding: 5px;
+}
+pre.oct-code-output {
+  margin-left: 2em;
+}
+span.comment {
+  color: ForestGreen;
+}
+span.keyword {
+  color: Blue;
+}
+span.string {
+  color: DarkOrchid;
+}
+footer {
+  margin-top: 2em;
+  font-size: 80%;
+}
+a, a:visited {
+  color: Blue;
+}
+h2 {
+  font-family: "Roboto Condensed", serif;
+  margin-top: 1.5em;
+}
+h2 a, h2 a:visited {
+  color: Black;
+}
+</style>
+
+</head>
+<body>
+<h1>Actividad $A_4$.</h1>
+
+<p><b>Interpolación y regresión</b></p>
+
+<p>Ignacio Sica</p>
+
+<p>06/05/21</p>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#node1">Problema 1.</a></li>
+<li><a href="#node2">Problema 2. Utilizando los datos del archivo datos.mat</a></li>
+</ul>
+<h2><a id="node1">Problema 1.</a></h2>
+<p>Es posible que sean útiles as funciones <b>qr</b> y <b>polyval</b>. No se pueden utilizar las
+funciones <b>polyfit</b> o <b>vander</b>.</p>
+
+<p>Considere los datos del archivo datos.mat que describe la cantidad
+de elementos de una fábrica en los años 2000 al 2007.</p>
+
+<p>Encuentre un polinomio de interpolación para dichos datos usando la base canónica.</p>
+
+<p>Encuentre un polinomio de interpolación para dichos datos usando polinomios de Lagrange.</p>
+
+<p>Encuentre un polinomio de interpolación para dichos datos usando polinomios de Newton.</p>
+
+<p>Grafíque los polinomios obtenidos anteriormente en el intervalo de 1999 a 2008
+y compare con los datos proporcionados por el archivo. Comente sus resultados
+¿Se puede utilizar dicho polinomio como instrumento de predicción para el año
+2050? Justifique su respuesta.</p>
+
+<p>¿Se puede utilizar dicho polinomio como instrumento de para corroborar la cantidad
+de elementos fabricados en el año 1980? Justifique su respuesta.</p>
+
+<p>¿Qué es el fenómeno de Runge? (100 palabras o menos). ¿Se presenta en este problema?</p>
+<h2><a id="node2">Problema 2. Utilizando los datos del archivo datos.mat</a></h2>
+<p>Encuentre polinomio de aproximación de grados del 4 usando la base canónica.</p>
+
+<p>Encuentre polinomio de aproximación de grados del 4 usando polinomios de Lagrange.</p>
+
+<p>Encuentre polinomio de aproximación de grados del 4 usando polinomios de Taylor.</p>
+
+<p>Evalúe los polinomios de los incisos anteriores en un intervalo ligeramente
+mayor al que describen los datos. El intervalo debe tener al menos 500 puntos.</p>
+
+<p>Compare sus resultados con los valores verdaderos. Comente el comportamiento de
+las aproximaciones.</p>
+
+<footer>
+<hr>
+<a href="https://www.octave.org">Published with GNU Octave 6.2.0</a>
+</footer>
+<!--
+##### SOURCE BEGIN #####
+%% Actividad $A_4$.
+% *Interpolación y regresión*
+%
+% Ignacio Sica
+%
+% 06/05/21
+
+%% Problema 1.
+%
+% Es posible que sean útiles as funciones *qr* y *polyval*. No se pueden utilizar las
+% funciones *polyfit* o *vander*.
+%
+% Considere los datos del archivo datos.mat que describe la cantidad
+% de elementos de una fábrica en los años 2000 al 2007.
+%
+% Encuentre un polinomio de interpolación para dichos datos usando la base canónica.
+%
+% Encuentre un polinomio de interpolación para dichos datos usando polinomios de Lagrange.
+%
+% Encuentre un polinomio de interpolación para dichos datos usando polinomios de Newton.
+%
+% Grafíque los polinomios obtenidos anteriormente en el intervalo de 1999 a 2008
+% y compare con los datos proporcionados por el archivo. Comente sus resultados
+% ¿Se puede utilizar dicho polinomio como instrumento de predicción para el año
+% 2050? Justifique su respuesta.
+%
+% ¿Se puede utilizar dicho polinomio como instrumento de para corroborar la cantidad
+% de elementos fabricados en el año 1980? Justifique su respuesta.
+%
+% ¿Qué es el fenómeno de Runge? (100 palabras o menos). ¿Se presenta en este problema?
+%
+
+%% Problema 2. Utilizando los datos del archivo datos.mat
+% Encuentre polinomio de aproximación de grados del 4 usando la base canónica.
+%
+% Encuentre polinomio de aproximación de grados del 4 usando polinomios de Lagrange.
+%
+% Encuentre polinomio de aproximación de grados del 4 usando polinomios de Taylor.
+%
+% Evalúe los polinomios de los incisos anteriores en un intervalo ligeramente
+% mayor al que describen los datos. El intervalo debe tener al menos 500 puntos.
+%
+% Compare sus resultados con los valores verdaderos. Comente el comportamiento de
+% las aproximaciones.
+%
+##### SOURCE END #####
+-->
+</body>
+</html>
