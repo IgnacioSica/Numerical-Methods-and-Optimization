@@ -1,14 +1,13 @@
-function p = canonical_base (x, y)
+function p = vandermonde(x, y)
   x = x;
   y = y;
   
-  n = size(x);
+  [n,m] = size(x);
   A = ones(n,n);
   
   for (i = 1 : n)
-    A(:, i) = x.^(i-1);
+    A(:, n-i+1) = x.^(i-1);
   end
   
-  x = zeros(size(x));
   p = sem_plu(A, y);
 endfunction

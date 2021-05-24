@@ -1,4 +1,4 @@
-function y = newton (x, y, points)
+function diag_dd = newton (x, y)
   [n,m]= size(x);
   dd = zeros(n, n+1);
   
@@ -22,14 +22,7 @@ function y = newton (x, y, points)
     column_index = column_index + 1;
   endwhile 
   
+  dd
   diag_dd = diag(dd(:, 2:end))
- 
-##  point = 2003 # puntoa  evaluar
- 
-  mat = ones(n, n);
-  for ii = 2:length(diag_dd)
-      mat(:,ii + 1) = mat(:,ii) .* (points.-x(ii-1));
-  end
-  y = mat .* diag_dd;
   
 endfunction
