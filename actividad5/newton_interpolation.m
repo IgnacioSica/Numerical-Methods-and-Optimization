@@ -23,7 +23,9 @@ for j = 2 : n - 1
       d(k, j) = (d(k+1, j - 1) - d(k, j - 1))/(x(k+j) - x(k));
    end
 end
+
 d
+
 for j = 2 : n
    a(j) = d(1, j-1);
 end
