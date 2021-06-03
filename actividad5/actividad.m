@@ -1,5 +1,5 @@
 %% Actividad $A_5$.
-% *Interpolación y regresión*
+% *Interpolacion y regresion*
 %
 % Ignacio Sica
 %
@@ -7,32 +7,38 @@
 
 %% Problema 1. 
 %
-% Es posible que sean útiles as funciones *qr* y *polyval*. No se pueden utilizar las 
+% Es posible que sean utiles as funciones *qr* y *polyval*. No se pueden utilizar las 
 % funciones *polyfit* o *vander*.
 %
 % Considere los datos del archivo datos.mat que describe la cantidad 
-% de elementos de una fábrica en los años 2000 al 2007. 
-% 
+% de elementos de una fabrica en los anos 2000 al 2007. 
 
-load datos.mat
-
-%% Polinomio de interpolación utilizando la base canónica.
-%
-
-ej1_vandermonde(x,y)
-
-%% Polinomio de interpolación utilizando polinomios de Lagrange.
-%
-
-ej1_lagrange(x,y)
-
-%% Encuentre un polinomio de interpolación para dichos datos usando polinomios de Newton.
-%
-
-X = linspace(-3, 4, 500);
+load datos.mat;
+X = linspace(-3, 4, 5000); 
 x = x.-2003;
+
+%% Polinomio de interpolacion utilizando la base canónica.
+
+p = vandermonde(x,y);
+plot(X, polyval(p,X),x,y,'rx');
+xlabel ("Año");
+ylabel ("Producción");
+title ("Vandermonde");
+
+%% Polinomio de interpolacion utilizando polinomios de Lagrange.
+
+plot(X, lagrange(x,y,X),x,y,'rx');
+xlabel ("Año");
+ylabel ("Producción");
+title ("Lagrange");
+
+%% Encuentre un polinomio de interpolacion para dichos datos usando polinomios de Newton.
+
 c = newton(x,y);
-plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx')
+plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx');
+xlabel ("Año");
+ylabel ("Producción");
+title ("Newton");
 
 %% ¿Se puede utilizar dicho polinomio como instrumento de predicción para el año 2050?
 %
@@ -43,7 +49,6 @@ plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx')
 % de la localidad de los puntos, tiende a infinito. Es mas, se puede notar esto a una escala mucho menor.
 % Al estar trabajando con polinomios, todas las raices(reales o no)de los mismos se encuentran en la localdiad de
 % de los puntos por lo que si uno se aleja de eso ya la funcion tiene a infinito.
-%
 
 %% ¿Se puede utilizar dicho polinomio como instrumento de para corroborar la cantidad de elementos fabricados en el año 1980? 
 %
@@ -52,7 +57,6 @@ plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx')
 % de los puntos utilizados para interpolar. En caso de que se intente predecir la produccion
 % en el ano 1980, el resultado no tendria sentido ya que la curva, a medida que se aleja
 % de la localidad de los puntos, tiende a infinito.
-%
 
 %% ¿Qué es el fenómeno de Runge? ¿Se presenta en este problema?
 %
@@ -74,7 +78,6 @@ plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx')
 % a los puntos pero no llega a tocar. Tambien, se puede observar que el numero de condicion
 % de la matriz resultante es mayor por lo que la precision y exactitud de los datos tambien es 
 % menor.
-% 
 
 %% Bibliografia
 % *Eric Walter*, Springer, Numerical Methods and Optimization
@@ -102,22 +105,13 @@ plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx')
 % http://www.ugr.es/~mpasadas/ftp/Inter2.pdf
 
 %% Codigo vandermonde
-# <include>evandermonde.m</include>
+# <include>vandermonde.m</include>
 
 %% Codigo lagrange
 # <include>lagrange.m</include>
 
 %% Codigo newton
 # <include>newton.m</include>
-
-%% Codigo ej1_vandermonde
-# <include>ej1_vandermonde.m</include>
-
-%% Codigo ej1_lagrange
-# <include>ej1_lagrange.m</include>
-
-%% Codigo ej1_newton
-# <include>ej1_newton.m</include>
 
 %% Descomposición Plu
 # <include>plu.m</include>

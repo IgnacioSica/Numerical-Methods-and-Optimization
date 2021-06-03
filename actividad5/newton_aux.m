@@ -7,13 +7,3 @@ function y = newton_aux (x,y,X,diag_dd)
   y = mat .* diag_dd;
   y = sum(y);
 endfunction
-
-##
-##Df(1) = 1;
-##c(1) = a(1);
-##for j = 2 : n
-##   Df(j)=(p - x(j-1)) .* Df(j-1);
-##   c(j) = a(j) .* Df(j);
-##end
-##
-##fp=sum(c);

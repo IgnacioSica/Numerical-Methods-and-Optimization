@@ -1,5 +1,5 @@
 function retval = ej1_vandermonde (x, y)
-  X = linspace(-3, 4, 500);
+  X = linspace(-3, 4, 5000);
   
   x = x.-2003;
   

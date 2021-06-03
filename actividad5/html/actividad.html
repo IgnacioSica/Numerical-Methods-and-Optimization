@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Actividad $A_5$.</title>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: 'all' } }
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<style>
+body > * {
+  max-width: 42em;
+}
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  padding-left: 7.5em;
+  padding-right: 7.5em;
+}
+pre, code {
+  max-width: 50em;
+  font-family: monospace;
+}
+pre.oct-code {
+  border: 1px solid Grey;
+  padding: 5px;
+}
+pre.oct-code-output {
+  margin-left: 2em;
+}
+span.comment {
+  color: ForestGreen;
+}
+span.keyword {
+  color: Blue;
+}
+span.string {
+  color: DarkOrchid;
+}
+footer {
+  margin-top: 2em;
+  font-size: 80%;
+}
+a, a:visited {
+  color: Blue;
+}
+h2 {
+  font-family: "Roboto Condensed", serif;
+  margin-top: 1.5em;
+}
+h2 a, h2 a:visited {
+  color: Black;
+}
+</style>
+
+</head>
+<body>
+<h1>Actividad $A_5$.</h1>
+
+<p><b>Interpolacion y regresion</b></p>
+
+<p>Ignacio Sica</p>
+
+<p>27/05/21</p>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#node1">Problema 1.</a></li>
+<li><a href="#node2">Polinomio de interpolacion utilizando la base canónica.</a></li>
+<li><a href="#node3">Polinomio de interpolacion utilizando polinomios de Lagrange.</a></li>
+<li><a href="#node4">Encuentre un polinomio de interpolacion para dichos datos usando polinomios de Newton.</a></li>
+<li><a href="#node5">¿Se puede utilizar dicho polinomio como instrumento de predicción para el año 2050?</a></li>
+<li><a href="#node6">¿Se puede utilizar dicho polinomio como instrumento de para corroborar la cantidad de elementos fabricados en el año 1980?</a></li>
+<li><a href="#node7">¿Qué es el fenómeno de Runge? ¿Se presenta en este problema?</a></li>
+<li><a href="#node8">Problema 2. Comportamiento de las aproximaciones.</a></li>
+<li><a href="#node9">Bibliografia</a></li>
+<li><a href="#node10">Codigo vandermonde</a></li>
+<li><a href="#node11">Codigo lagrange</a></li>
+<li><a href="#node12">Codigo newton</a></li>
+<li><a href="#node13">Descomposición Plu</a></li>
+<li><a href="#node14">Sistemas de ecuaciones x PLU</a></li>
+<li><a href="#node15">SustitucionAdelante</a></li>
+</ul>
+<h2><a id="node1">Problema 1.</a></h2>
+<p>Es posible que sean utiles as funciones <b>qr</b> y <b>polyval</b>. No se pueden utilizar las
+funciones <b>polyfit</b> o <b>vander</b>.</p>
+
+<p>Considere los datos del archivo datos.mat que describe la cantidad
+de elementos de una fabrica en los anos 2000 al 2007.</p>
+
+<pre class="oct-code">load datos.mat;
+X = linspace(-3, 4, 5000);
+x = x.-2003;</pre>
+<h2><a id="node2">Polinomio de interpolacion utilizando la base canónica.</a></h2>
+<pre class="oct-code">p = vandermonde(x,y);
+plot(X, polyval(p,X),x,y,<span class="string">'rx'</span>);
+xlabel (<span class="string">"Año"</span>);
+ylabel (<span class="string">"Producción"</span>);
+title (<span class="string">"Vandermonde"</span>);</pre>
+<img src="actividad-1.png" alt="actividad-1.png"><h2><a id="node3">Polinomio de interpolacion utilizando polinomios de Lagrange.</a></h2>
+<pre class="oct-code">plot(X, lagrange(x,y,X),x,y,<span class="string">'rx'</span>);
+xlabel (<span class="string">"Año"</span>);
+ylabel (<span class="string">"Producción"</span>);
+title (<span class="string">"Lagrange"</span>);</pre>
+<img src="actividad-2.png" alt="actividad-2.png"><h2><a id="node4">Encuentre un polinomio de interpolacion para dichos datos usando polinomios de Newton.</a></h2>
+<pre class="oct-code">c = newton(x,y);
+plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,<span class="string">'rx'</span>);
+xlabel (<span class="string">"Año"</span>);
+ylabel (<span class="string">"Producción"</span>);
+title (<span class="string">"Newton"</span>);</pre>
+<img src="actividad-3.png" alt="actividad-3.png"><h2><a id="node5">¿Se puede utilizar dicho polinomio como instrumento de predicción para el año 2050?</a></h2>
+<p>El polinomio resultante no se puede utilizar para predecir la produccion en el ano
+2050. Este polinomio solamente sirve para interpolar los puntos en un entorno local
+con respecto a los puntos interpolados. En caso de que se intente predecir la produccion
+en el ano 2050, el resultado no tendria sentido ya que la curva, a medida que se aleja
+de la localidad de los puntos, tiende a infinito. Es mas, se puede notar esto a una escala mucho menor.
+Al estar trabajando con polinomios, todas las raices(reales o no)de los mismos se encuentran en la localdiad de
+de los puntos por lo que si uno se aleja de eso ya la funcion tiene a infinito.</p>
+<h2><a id="node6">¿Se puede utilizar dicho polinomio como instrumento de para corroborar la cantidad de elementos fabricados en el año 1980?</a></h2>
+<p>Al igual que en el punto anterior, los polinomios obtenidos en esta parte no sirven
+para aproximar la produccion en un entorno que se encuentra alejado de la localidad
+de los puntos utilizados para interpolar. En caso de que se intente predecir la produccion
+en el ano 1980, el resultado no tendria sentido ya que la curva, a medida que se aleja
+de la localidad de los puntos, tiende a infinito.</p>
+<h2><a id="node7">¿Qué es el fenómeno de Runge? ¿Se presenta en este problema?</a></h2>
+<p>En pocas palabras, el fenomeno de Runge explica que el aumentar el grado del polinomio
+cuando se hace una interpolacion lineal no necesariamente aumentara la precision sino
+que se generaran crestas y valles cada vez mas pronunciadas. Esto se da cuando los
+puntos se encuentran equidistantemente distribuidos. Este fenomeno si se presenta en el
+problema planteado ya que todos los puntos se encuentran equidistantemente separados el
+uno del otro. En las graficas se pueden observar estas crestas y valles.</p>
+<h2><a id="node8">Problema 2. Comportamiento de las aproximaciones.</a></h2>
+<p>A pesar de no haber podido terminar el codigo a tiempo para la entrega, a traves de
+teorico que estuve leyendo para la actividad y tambien los resultados que algunos
+compañeros compartieron durante la clase puedo sacar las siguientes conclusiones
+acerca de las aproximaciones. Primero es que, a diferencia de el ejercicio 1 donde
+se interpolaban los puntos, al simplemente aproximar las graficas resultantes no
+pasan exactamente por los datos de entrada, es decir, la curva del grafico "acompaña"
+a los puntos pero no llega a tocar. Tambien, se puede observar que el numero de condicion
+de la matriz resultante es mayor por lo que la precision y exactitud de los datos tambien es
+menor.</p>
+<h2><a id="node9">Bibliografia</a></h2>
+<p><b>Eric Walter</b>, Springer, Numerical Methods and Optimization</p>
+
+<p><b>Richard Khoury</b> &amp; Douglas Wilhelm Harder, Springer
+    Numerical Methods and Modelling for Engineering</p>
+
+<p><b>Gauss–Seidel method</b>, Wikipedia,
+    (https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)</p>
+
+<p><b>Norm (mathematics)</b>, Wikipedia
+    (https://en.wikipedia.org/wiki/Norm_(mathematics))</p>
+
+<p><b>Javier Segura</b>, Universidad de Cantabria, Introduccion al analisis numerico
+    (https://personales.unican.es/segurajj/intro.pdf)</p>
+
+<p><b>Errors for Linear Systems</b>
+    (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)</p>
+
+<p><b>Inv Function</b>
+    (https://octave.sourceforge.io/octave/function/inv.html)</p>
+
+<p>https://www.unioviedo.es/compnum/labs/PYTHON/Interpolation.html
+https://www.youtube.com/watch?v=Az2jhvu2i2I
+http://www.ugr.es/~mpasadas/ftp/Inter2.pdf</p>
+<h2><a id="node10">Codigo vandermonde</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> p = vandermonde(x, y)
+  x = x;
+  y = y;
+  
+  [n,m] = size(x);
+  A = ones(n,n);
+  
+  <span class="keyword">for</span> (i = 1 : n)
+    A(:, n-i+1) = x.^(i-1);
+  <span class="keyword">end</span>
+  
+  p = sem_plu(A, y);
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node11">Codigo lagrange</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> Y = lagrange(x, y, X)
+[n,m] = size(x);
+x = x;
+Y = 0;
+function_index = 1;
+<span class="keyword">while</span>(function_index &lt;= n)
+  point_index = 1;
+  numerator = 1;
+  denominator = 1;
+  <span class="keyword">while</span>(point_index &lt;= n)
+    <span class="keyword">if</span>(point_index != function_index)
+      numerator = numerator .* (X - x(point_index));
+      denominator = denominator * (x(function_index) - x(point_index));
+    <span class="keyword">endif</span>
+    point_index = point_index + 1;
+  <span class="keyword">endwhile</span>
+  Y = Y + (y(function_index) .* numerator ./ denominator);
+  function_index = function_index + 1;
+<span class="keyword">endwhile</span>
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node12">Codigo newton</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> c = newton (x, y)
+  [n,m]= size(x);
+  dd = zeros(n, n+1);
+  
+  dd(:,1) = x;
+  dd(:,2) = y;
+  
+  column_index = 3;
+  
+  <span class="keyword">while</span>(column_index &lt;= (n + 1))
+    row_index = 1;
+    <span class="keyword">while</span>(row_index &lt;= n - column_index + 2)
+      dd(row_index, column_index) = (dd(row_index+1, column_index - 1) - dd(row_index, column_index - 1)) ...
+                                  / (x(row_index + column_index - 2) - x(row_index));
+      row_index = row_index + 1;
+    <span class="keyword">endwhile</span>
+    column_index = column_index + 1;
+  <span class="keyword">endwhile</span> 
+  
+  c = dd(1,2:end);
+
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node13">Descomposición Plu</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [P,L,U] = plu (M)
+  n = size(M);
+  P = eye(n);
+  L = zeros(n);
+  U = M;
+  ColumnIndex = 1;
+  <span class="keyword">while</span> (ColumnIndex &lt;= n - 1)
+    ColumnVector = U(ColumnIndex:end, ColumnIndex);
+    [max_value, IndexOfMaximum] = max(abs(ColumnVector));
+    IndexOfMaximum = IndexOfMaximum + ColumnIndex - 1;
+    
+    P([ColumnIndex IndexOfMaximum],:) = P([IndexOfMaximum ColumnIndex],:);
+    L([ColumnIndex IndexOfMaximum],:) = L([IndexOfMaximum ColumnIndex],:);
+    U([ColumnIndex IndexOfMaximum],:) = U([IndexOfMaximum ColumnIndex],:);
+    
+    RowIndex = ColumnIndex + 1;
+    <span class="keyword">while</span> (RowIndex &lt;= n)
+      s = (-1 * U(RowIndex, ColumnIndex)) / U(ColumnIndex, ColumnIndex);
+      U(RowIndex, :) = U(RowIndex, :) + U(ColumnIndex, :) * s;
+      L(RowIndex, ColumnIndex) = s * -1;
+      RowIndex = RowIndex + 1;
+    <span class="keyword">endwhile</span>
+    ColumnIndex = ColumnIndex + 1;
+  <span class="keyword">endwhile</span>
+  L = L + eye(n);
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node14">Sistemas de ecuaciones x PLU</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [x] = sem_plu(A, b)
+  [P, L, U] = plu(A);
+  [y] = SustitucionAdelante (L, P*b);
+  [x, msg] = SustitucionAtras (U, y);
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node15">SustitucionAdelante</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [y,msg] = SustitucionAdelante (L, b)
+  [mL,nL] = size(L);
+  [mb,nb] = size(b);
+  
+  <span class="comment">## </span>
+  <span class="keyword">if</span> mL ~= nL
+    msg = 0;
+    y = inf;
+    disp(<span class="string">'L no es cuadrada'</span>)
+    return; <span class="comment"># fin de la funcion</span>
+  <span class="keyword">elseif</span> (mL ~= mb) || nb ~= 1
+    msg = 0;
+    y = inf;
+    disp(<span class="string">'L y b son de dimensiones incompatibles'</span>)
+    return; <span class="comment"># fin de la funcion</span>
+  <span class="keyword">endif</span>
+  <span class="keyword">for</span> ii=1:mL
+    <span class="keyword">if</span> abs(L(ii,ii)) &lt; eps
+      msg = 0;
+      y = inf;
+      disp(<span class="string">'L tiene pivote menor que eps'</span>)
+      return; <span class="comment"># fin de la funcion</span>
+    <span class="keyword">endif</span>
+  <span class="keyword">endfor</span>
+  
+  <span class="comment">## Inicio del algoritmo</span>
+  y = 0*b; 
+  
+  <span class="keyword">if</span> (L(1,1)==1)
+    y(1) = b(1);
+  <span class="keyword">else</span>
+    y(1) = b(1)/L(1,1);
+  <span class="keyword">endif</span>
+  <span class="keyword">for</span> ii=2:mL
+    y(ii) = b(ii)-L(ii,1:ii-1)*y(1:ii-1);
+    pivote = L(ii,ii);
+    <span class="keyword">if</span> (pivote ~=1)
+      y(ii) = y(ii)/pivote;
+    <span class="keyword">endif</span>
+  <span class="keyword">endfor</span>
+  
+  msg = 1; 
+ <span class="comment">% disp('Algoritmo finalizo normalmente');  </span>
+    
+  <span class="keyword">endfunction</span>
+  </pre>
+
+<footer>
+<hr>
+<a href="https://www.octave.org">Published with GNU Octave 6.2.0</a>
+</footer>
+<!--
+##### SOURCE BEGIN #####
+%% Actividad $A_5$.
+% *Interpolacion y regresion*
+%
+% Ignacio Sica
+%
+% 27/05/21
+
+%% Problema 1.
+%
+% Es posible que sean utiles as funciones *qr* y *polyval*. No se pueden utilizar las
+% funciones *polyfit* o *vander*.
+%
+% Considere los datos del archivo datos.mat que describe la cantidad
+% de elementos de una fabrica en los anos 2000 al 2007.
+
+load datos.mat;
+X = linspace(-3, 4, 5000);
+x = x.-2003;
+
+%% Polinomio de interpolacion utilizando la base canónica.
+
+p = vandermonde(x,y);
+plot(X, polyval(p,X),x,y,'rx');
+xlabel ("Año");
+ylabel ("Producción");
+title ("Vandermonde");
+
+%% Polinomio de interpolacion utilizando polinomios de Lagrange.
+
+plot(X, lagrange(x,y,X),x,y,'rx');
+xlabel ("Año");
+ylabel ("Producción");
+title ("Lagrange");
+
+%% Encuentre un polinomio de interpolacion para dichos datos usando polinomios de Newton.
+
+c = newton(x,y);
+plot(X, arrayfun(@(X) newton_aux(x,y,X,c), X),x,y,'rx');
+xlabel ("Año");
+ylabel ("Producción");
+title ("Newton");
+
+%% ¿Se puede utilizar dicho polinomio como instrumento de predicción para el año 2050?
+%
+% El polinomio resultante no se puede utilizar para predecir la produccion en el ano
+% 2050. Este polinomio solamente sirve para interpolar los puntos en un entorno local
+% con respecto a los puntos interpolados. En caso de que se intente predecir la produccion
+% en el ano 2050, el resultado no tendria sentido ya que la curva, a medida que se aleja
+% de la localidad de los puntos, tiende a infinito. Es mas, se puede notar esto a una escala mucho menor.
+% Al estar trabajando con polinomios, todas las raices(reales o no)de los mismos se encuentran en la localdiad de
+% de los puntos por lo que si uno se aleja de eso ya la funcion tiene a infinito.
+
+%% ¿Se puede utilizar dicho polinomio como instrumento de para corroborar la cantidad de elementos fabricados en el año 1980?
+%
+% Al igual que en el punto anterior, los polinomios obtenidos en esta parte no sirven
+% para aproximar la produccion en un entorno que se encuentra alejado de la localidad
+% de los puntos utilizados para interpolar. En caso de que se intente predecir la produccion
+% en el ano 1980, el resultado no tendria sentido ya que la curva, a medida que se aleja
+% de la localidad de los puntos, tiende a infinito.
+
+%% ¿Qué es el fenómeno de Runge? ¿Se presenta en este problema?
+%
+% En pocas palabras, el fenomeno de Runge explica que el aumentar el grado del polinomio
+% cuando se hace una interpolacion lineal no necesariamente aumentara la precision sino
+% que se generaran crestas y valles cada vez mas pronunciadas. Esto se da cuando los
+% puntos se encuentran equidistantemente distribuidos. Este fenomeno si se presenta en el
+% problema planteado ya que todos los puntos se encuentran equidistantemente separados el
+% uno del otro. En las graficas se pueden observar estas crestas y valles.
+
+%% Problema 2. Comportamiento de las aproximaciones.
+%
+% A pesar de no haber podido terminar el codigo a tiempo para la entrega, a traves de
+% teorico que estuve leyendo para la actividad y tambien los resultados que algunos
+% compañeros compartieron durante la clase puedo sacar las siguientes conclusiones
+% acerca de las aproximaciones. Primero es que, a diferencia de el ejercicio 1 donde
+% se interpolaban los puntos, al simplemente aproximar las graficas resultantes no
+% pasan exactamente por los datos de entrada, es decir, la curva del grafico "acompaña"
+% a los puntos pero no llega a tocar. Tambien, se puede observar que el numero de condicion
+% de la matriz resultante es mayor por lo que la precision y exactitud de los datos tambien es
+% menor.
+
+%% Bibliografia
+% *Eric Walter*, Springer, Numerical Methods and Optimization
+%
+% *Richard Khoury* & Douglas Wilhelm Harder, Springer
+%     Numerical Methods and Modelling for Engineering
+%
+% *Gauss–Seidel method*, Wikipedia,
+%     (https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
+%
+% *Norm (mathematics)*, Wikipedia
+%     (https://en.wikipedia.org/wiki/Norm_(mathematics))
+%
+% *Javier Segura*, Universidad de Cantabria, Introduccion al analisis numerico
+%     (https://personales.unican.es/segurajj/intro.pdf)
+%
+% *Errors for Linear Systems*
+%     (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)
+%
+% *Inv Function*
+%     (https://octave.sourceforge.io/octave/function/inv.html)
+%
+% https://www.unioviedo.es/compnum/labs/PYTHON/Interpolation.html
+% https://www.youtube.com/watch?v=Az2jhvu2i2I
+% http://www.ugr.es/~mpasadas/ftp/Inter2.pdf
+
+%% Codigo vandermonde
+# <include>vandermonde.m</include>
+
+%% Codigo lagrange
+# <include>lagrange.m</include>
+
+%% Codigo newton
+# <include>newton.m</include>
+
+%% Descomposición Plu
+# <include>plu.m</include>
+
+%% Sistemas de ecuaciones x PLU
+# <include>sem_plu.m</include>
+
+%% SustitucionAdelante
+# <include>SustitucionAdelante.m</include>
+##### SOURCE END #####
+-->
+</body>
+</html>
