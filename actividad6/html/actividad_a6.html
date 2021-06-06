@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Actividad $A_6$.</title>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: 'all' } }
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<style>
+body > * {
+  max-width: 42em;
+}
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  padding-left: 7.5em;
+  padding-right: 7.5em;
+}
+pre, code {
+  max-width: 50em;
+  font-family: monospace;
+}
+pre.oct-code {
+  border: 1px solid Grey;
+  padding: 5px;
+}
+pre.oct-code-output {
+  margin-left: 2em;
+}
+span.comment {
+  color: ForestGreen;
+}
+span.keyword {
+  color: Blue;
+}
+span.string {
+  color: DarkOrchid;
+}
+footer {
+  margin-top: 2em;
+  font-size: 80%;
+}
+a, a:visited {
+  color: Blue;
+}
+h2 {
+  font-family: "Roboto Condensed", serif;
+  margin-top: 1.5em;
+}
+h2 a, h2 a:visited {
+  color: Black;
+}
+</style>
+
+</head>
+<body>
+<h1>Actividad $A_6$.</h1>
+
+<p><b>Raices de funciones</b></p>
+
+<p>Ignacio Sica</p>
+
+<p>03/06/21</p>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#node1">Problema 1</a></li>
+<li><a href="#node2">Conclusiones problema 1</a></li>
+<li><a href="#node3">Problema 2</a></li>
+<li><a href="#node4">Conclusiones problema 2</a></li>
+<li><a href="#node5">Bibliografia</a></li>
+<li><a href="#node6">Codigo bisection</a></li>
+<li><a href="#node7">Codigo newton</a></li>
+<li><a href="#node8">Codigo secant</a></li>
+<li><a href="#node9">Codigo mnewton</a></li>
+<li><a href="#node10">Codigo evalJ</a></li>
+<li><a href="#node11">Codigo fun</a></li>
+<li><a href="#node12">Codigo fun2</a></li>
+<li><a href="#node13">Sistemas de ecuaciones x PLU</a></li>
+</ul>
+<h2><a id="node1">Problema 1</a></h2>
+<p>Considere a la funcion dada y encuentre las raices de la funcion usando los metodos de Biseccion,
+Newton y Secante. Compare el desempeno de los metodos. Corrobore los ordenes de convergencia de
+los diferentes algoritmos.</p>
+
+<pre class="oct-code">disp(<span class="string">"Problema 1:"</span>)
+
+t = linspace(-1, 2.5, 5000);
+plot(t, arrayfun(@(t) fun(t), t));
+grid on;
+
+x = 100;
+pValue = 90;
+
+xL = 0;
+xU = 100;
+maxI = 100;
+minE = 10e-8;
+
+disp(<span class="string">"bisection"</span>)
+tic();
+[state, val, iCounter] = bisection(xL, xU, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
+
+disp(<span class="string">"newton"</span>)
+tic();
+[state, val, iCounter] = newton(x, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
+
+disp(<span class="string">"secant"</span>)
+tic();
+[state, val, iCounter] = secant(x, pValue, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)</pre>
+
+<pre class="oct-code-output">Problema 1:
+bisection
+state = success
+val = 2.1746
+iCounter = 30
+Time elapsed: 0.00287294s
+newton
+state = success
+val = 2.1746
+iCounter = 54
+Time elapsed: 0.00845003s
+secant
+state = success
+val = 2.1746
+iCounter = 72
+Time elapsed: 0.00539112s
+</pre>
+<img src="actividad_a6-1.png" alt="actividad_a6-1.png"><h2><a id="node2">Conclusiones problema 1</a></h2>
+<p>Con los resultados de las aproximaciones del problema 1 se puede observar que el metodo que
+en este caso converge mas rapido es el de bisection y tiene sentido ya que es el unico que
+asegura una cantidad de pasos determinada dadas las condiciones iniciales. Tambien es el que
+demora menos tiempo en ejecutarse por el mismo motivo. De los otros dos metodos se puede
+el de newton precisa de menos iteraciones para llegar al resultado deseado necesitando
+solamente de 54 iteraciones con respecto a las 72 necesarias en el metodo del secante.</p>
+<h2><a id="node3">Problema 2</a></h2>
+<p>Utilizando el metodo de Newton aproxime la raiz de la funcion dada. partiendo de la condicion
+inicial (x1,x2)=(âˆ’1.5,1.5). La condicion de exito es la misma que en el problema 1.</p>
+
+<pre class="oct-code">disp(<span class="string">"Problema 2:"</span>)
+
+maxI = 100;
+minE = 10e-8;
+
+x1 = -1.5;
+x2 = 1.5;
+xv = [x1;x2];
+
+disp(<span class="string">"newton"</span>)
+tic();
+[state, x, iCounter] = mnewton(xv, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)</pre>
+
+<pre class="oct-code-output">Problema 2:
+newton
+state = success
+x =
+ 
+  -1.3692
+   0.5779
+ 
+iCounter = 5
+Time elapsed: 0.116327s
+</pre>
+<h2><a id="node4">Conclusiones problema 2</a></h2>
+<p>En este ejercicio se busco una raiz en una funcion de multiples dimensiones a traves
+del metodo de newton. Dicho metodo resulto muy eficiente a que a pesar no tratarse de
+una funcion sencilla de una sola variable, la cantidad de iteraciones fue muy baja y
+tambien se preciso de muy poco tiempo para realizar la tarea.</p>
+<h2><a id="node5">Bibliografia</a></h2>
+<p><b>Eric Walter</b>, Springer, Numerical Methods and Optimization</p>
+
+<p><b>Richard Khoury</b> &amp; Douglas Wilhelm Harder, Springer
+    Numerical Methods and Modelling for Engineering</p>
+
+<p><b>Gaussï¿½Seidel method</b>, Wikipedia,
+    (https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)</p>
+
+<p><b>Norm (mathematics)</b>, Wikipedia
+    (https://en.wikipedia.org/wiki/Norm_(mathematics))</p>
+
+<p><b>Javier Segura</b>, Universidad de Cantabria, Introduccion al analisis numerico
+    (https://personales.unican.es/segurajj/intro.pdf)</p>
+
+<p><b>Errors for Linear Systems</b>
+    (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)</p>
+
+<p><b>Inv Function</b>
+    (https://octave.sourceforge.io/octave/function/inv.html)</p>
+
+<p>https://www.unioviedo.es/compnum/labs/PYTHON/Interpolation.html
+https://www.youtube.com/watch?v=Az2jhvu2i2I
+http://www.ugr.es/~mpasadas/ftp/Inter2.pdf</p>
+<h2><a id="node6">Codigo bisection</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = bisection(xL, xU, maxI, minE)
+x = xL;
+iCounter = 0;
+
+<span class="keyword">while</span>(1==1)
+
+    pValue = x;
+    x = (xL + xU) / 2;
+    evaluation = fun(x);
+
+    <span class="keyword">if</span>(evaluation * fun(xU) &gt; 0)
+        xU = x;
+    <span class="keyword">elseif</span>(evaluation * fun(xL) &gt; 0)
+        xL = x;
+    <span class="keyword">endif</span>
+
+    <span class="comment">%cError = abs((x-pValue) / x);</span>
+    cError = abs(max((x-pValue), (fun(x) - fun(pValue))));
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node7">Codigo newton</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = newton (x, maxI, minE)
+
+iCounter = 0;
+<span class="keyword">while</span>(1==1)
+
+    pValue = x;
+    x = x - (fun(x) / dfun(x));
+
+    <span class="keyword">if</span>(dfun(x) == 0)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="comment">%cError = abs((x-pValue) / x);</span>
+    cError = abs(max((x-pValue), (fun(x) - fun(pValue))));
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node8">Codigo secant</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = secant (x, pValue, maxI, minE)
+
+iCounter = 0;
+<span class="keyword">while</span>(1==1)
+
+    tValue = x;
+    x = x - (fun(x) * (pValue - x)) / (fun(pValue) - fun(x));
+    pValue = tValue;
+
+    <span class="comment">%cError = abs((x-pValue) / x);</span>
+    cError = abs(max((x-pValue), (fun(x) - fun(pValue))));
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node9">Codigo mnewton</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, x, iCounter] = mnewton (x, maxI, minE)
+
+iCounter = 0;
+<span class="keyword">while</span>(1==1)
+
+    pValue = x;
+    delta = sem_plu(evalJ(x), -fun2(x));
+    x = x + delta;
+
+    cError = max(norm((x-pValue)), norm((fun2(x) - fun2(pValue))));
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node10">Codigo evalJ</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [J] = evalJ(x)
+
+J = zeros(size(x)(1));
+
+J(1,1) = 2*x(1) - x(2);
+J(1,2) = - x(1) + 2*x(2);
+J(2,1) = 1 - x(2);
+J(2,2) = 1 - x(1);
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node11">Codigo fun</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> f = fun(t)
+
+f = (e^t - 2*t) * e^(-t/2) - 1.5;
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node12">Codigo fun2</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [y] = fun2(x)
+
+y = zeros(size(x)(1), 1);
+
+y(1) = x(1)^2 - x(1)*x(2) + x(2)^2 - 3;
+y(2) = x(1) + x(2) - x(1)*x(2);
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node13">Sistemas de ecuaciones x PLU</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [x] = sem_plu(A, b)
+  [P, L, U] = plu(A);
+  [y] = SustitucionAdelante (L, P*b);
+  [x, msg] = SustitucionAtras (U, y);
+<span class="keyword">endfunction</span></pre>
+
+<footer>
+<hr>
+<a href="https://www.octave.org">Published with GNU Octave 6.2.0</a>
+</footer>
+<!--
+##### SOURCE BEGIN #####
+%% Actividad $A_6$.
+% *Raices de funciones*
+%
+% Ignacio Sica
+%
+% 03/06/21
+
+%% Problema 1
+% Considere a la funcion dada y encuentre las raices de la funcion usando los metodos de Biseccion,
+% Newton y Secante. Compare el desempeno de los metodos. Corrobore los ordenes de convergencia de
+% los diferentes algoritmos.
+
+disp("Problema 1:")
+
+t = linspace(-1, 2.5, 5000);
+plot(t, arrayfun(@(t) fun(t), t));
+grid on;
+
+x = 100;
+pValue = 90;
+
+xL = 0;
+xU = 100;
+maxI = 100;
+minE = 10e-8;
+
+disp("bisection")
+tic();
+[state, val, iCounter] = bisection(xL, xU, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+
+disp("newton")
+tic();
+[state, val, iCounter] = newton(x, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+
+disp("secant")
+tic();
+[state, val, iCounter] = secant(x, pValue, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+
+%% Conclusiones problema 1
+% Con los resultados de las aproximaciones del problema 1 se puede observar que el metodo que
+% en este caso converge mas rapido es el de bisection y tiene sentido ya que es el unico que
+% asegura una cantidad de pasos determinada dadas las condiciones iniciales. Tambien es el que
+% demora menos tiempo en ejecutarse por el mismo motivo. De los otros dos metodos se puede
+% el de newton precisa de menos iteraciones para llegar al resultado deseado necesitando
+% solamente de 54 iteraciones con respecto a las 72 necesarias en el metodo del secante.
+
+%% Problema 2
+% Utilizando el metodo de Newton aproxime la raiz de la funcion dada. partiendo de la condicion
+% inicial (x1,x2)=(âˆ’1.5,1.5). La condicion de exito es la misma que en el problema 1.
+
+disp("Problema 2:")
+
+maxI = 100;
+minE = 10e-8;
+
+x1 = -1.5;
+x2 = 1.5;
+xv = [x1;x2];
+
+disp("newton")
+tic();
+[state, x, iCounter] = mnewton(xv, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+
+%% Conclusiones problema 2
+% En este ejercicio se busco una raiz en una funcion de multiples dimensiones a traves
+% del metodo de newton. Dicho metodo resulto muy eficiente a que a pesar no tratarse de
+% una funcion sencilla de una sola variable, la cantidad de iteraciones fue muy baja y
+% tambien se preciso de muy poco tiempo para realizar la tarea.
+
+%% Bibliografia
+% *Eric Walter*, Springer, Numerical Methods and Optimization
+%
+% *Richard Khoury* & Douglas Wilhelm Harder, Springer
+%     Numerical Methods and Modelling for Engineering
+%
+% *Gaussï¿½Seidel method*, Wikipedia,
+%     (https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
+%
+% *Norm (mathematics)*, Wikipedia
+%     (https://en.wikipedia.org/wiki/Norm_(mathematics))
+%
+% *Javier Segura*, Universidad de Cantabria, Introduccion al analisis numerico
+%     (https://personales.unican.es/segurajj/intro.pdf)
+%
+% *Errors for Linear Systems*
+%     (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)
+%
+% *Inv Function*
+%     (https://octave.sourceforge.io/octave/function/inv.html)
+%
+% https://www.unioviedo.es/compnum/labs/PYTHON/Interpolation.html
+% https://www.youtube.com/watch?v=Az2jhvu2i2I
+% http://www.ugr.es/~mpasadas/ftp/Inter2.pdf
+
+%% Codigo bisection
+# <include>bisection.m</include>
+
+%% Codigo newton
+# <include>newton.m</include>
+
+%% Codigo secant
+# <include>secant.m</include>
+
+%% Codigo mnewton
+# <include>mnewton.m</include>
+
+%% Codigo evalJ
+# <include>evalJ.m</include>
+
+%% Codigo fun
+# <include>fun.m</include>
+
+%% Codigo fun2
+# <include>fun2.m</include>
+
+%% Sistemas de ecuaciones x PLU
+# <include>sem_plu.m</include>
+##### SOURCE END #####
+-->
+</body>
+</html>
