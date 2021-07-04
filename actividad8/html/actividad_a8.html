@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>actividad_a8</title>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: 'all' } }
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<style>
+body > * {
+  max-width: 42em;
+}
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  padding-left: 7.5em;
+  padding-right: 7.5em;
+}
+pre, code {
+  max-width: 50em;
+  font-family: monospace;
+}
+pre.oct-code {
+  border: 1px solid Grey;
+  padding: 5px;
+}
+pre.oct-code-output {
+  margin-left: 2em;
+}
+span.comment {
+  color: ForestGreen;
+}
+span.keyword {
+  color: Blue;
+}
+span.string {
+  color: DarkOrchid;
+}
+footer {
+  margin-top: 2em;
+  font-size: 80%;
+}
+a, a:visited {
+  color: Blue;
+}
+h2 {
+  font-family: "Roboto Condensed", serif;
+  margin-top: 1.5em;
+}
+h2 a, h2 a:visited {
+  color: Black;
+}
+</style>
+
+</head>
+<body>
+<h1>actividad_a8</h1>
+
+
+<pre class="oct-code">fun = @(x) 3*x^2 * sin(x) * e^(-2*x);
+dfun = @(x) 6*x*sin(x)*e^(-2*x) + 3*x^2*cos(x)*e^(-2*x) - 6*x^2*sin(x)*e^(-2*x);
+
+set(gca, <span class="string">"linewidth"</span>, 1.5, <span class="string">"fontsize"</span>, 32)
+xlabel (<span class="string">"h"</span>, <span class="string">"fontsize"</span>, 60);
+ylabel (<span class="string">"Relative Error"</span>, <span class="string">"fontsize"</span>, 60);
+
+grid on;
+hold on;
+
+value = dfun(0.5)
+
+h = linspace(0.00001, 0.001, 1000);
+
+errBac = @(xs) (der_backward(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errBac(h), h));
+
+errCen = @(xs) (der_cent(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errCen(h), h));
+
+errCmp = @(xs) (der_cmplx(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errCmp(h), h));
+
+errFor = @(xs) (der_forward(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errFor(h), h));
+
+legend(<span class="string">"Backward"</span>, <span class="string">"Cent"</span>, <span class="string">"Cmplx"</span>, <span class="string">"Forward"</span>, <span class="string">"location"</span>, <span class="string">"northeast"</span>);
+
+t = linspace(0, 3.5, 350);
+<span class="comment">#plot(t, arrayfun(@(t) fun(t), t));</span>
+<span class="comment">#plot(t, arrayfun(@(t) dfun(t), t));</span>
+
+h = 0.05;
+<span class="keyword">for</span> i = h
+    <span class="comment">#plot(t, arrayfun(@(t) der_backward(fun, t, i), t));</span>
+    <span class="comment">#plot(t, arrayfun(@(t) der_cent(fun, t, i), t));</span>
+    <span class="comment">#plot(t, arrayfun(@(t) der_cmplx(fun, t, i), t));</span>
+    <span class="comment">#plot(t, arrayfun(@(t) der_forward(fun, t, i), t));</span>
+
+   <span class="comment"># bacAprox = der_backward(fun, 0.5, i)</span>
+   <span class="comment"># bacError = (bacAprox - value) / value</span>
+   <span class="comment"># cenAprox = der_cent(fun, 0.5, i)</span>
+   <span class="comment"># cenError = (cenAprox - value) / value</span>
+   <span class="comment"># cmpAprox = der_cmplx(fun, 0.5, i)</span>
+   <span class="comment"># cmpError = (cmpAprox - value) / value</span>
+   <span class="comment"># forAprox = der_forward(fun, 0.5, i)</span>
+   <span class="comment"># forError = (forAprox - value) / value</span>
+<span class="keyword">endfor</span></pre>
+
+<pre class="oct-code-output">value = 0.5067
+warning: axis: omitting non-positive data in log plot
+warning: called from
+    __plt__&gt;__plt2vv__ at line 500 column 10
+    __plt__&gt;__plt2__ at line 247 column 14
+    __plt__ at line 112 column 18
+    semilogy at line 65 column 10
+    publish&gt;eval_code_helper at line 1066 column 8
+    publish&gt;eval_code at line 983 column 30
+    publish at line 401 column 9
+ 
+warning: axis: omitting non-positive data in log plot
+warning: called from
+    __plt__&gt;__plt2vv__ at line 500 column 10
+    __plt__&gt;__plt2__ at line 247 column 14
+    __plt__ at line 112 column 18
+    semilogy at line 65 column 10
+    publish&gt;eval_code_helper at line 1066 column 8
+    publish&gt;eval_code at line 983 column 30
+    publish at line 401 column 9
+ 
+warning: axis: omitting non-positive data in log plot
+warning: called from
+    __plt__&gt;__plt2vv__ at line 500 column 10
+    __plt__&gt;__plt2__ at line 247 column 14
+    __plt__ at line 112 column 18
+    semilogy at line 65 column 10
+    publish&gt;eval_code_helper at line 1066 column 8
+    publish&gt;eval_code at line 983 column 30
+    publish at line 401 column 9
+ 
+warning: axis: omitting non-positive data in log plot
+warning: called from
+    __plt__&gt;__plt2vv__ at line 500 column 10
+    __plt__&gt;__plt2__ at line 247 column 14
+    __plt__ at line 112 column 18
+    semilogy at line 65 column 10
+    publish&gt;eval_code_helper at line 1066 column 8
+    publish&gt;eval_code at line 983 column 30
+    publish at line 401 column 9
+ 
+warning: axis: omitting non-positive data in log plot
+warning: called from
+    __plt__&gt;__plt2vv__ at line 500 column 10
+    __plt__&gt;__plt2__ at line 247 column 14
+    __plt__ at line 112 column 18
+    semilogy at line 65 column 10
+    publish&gt;eval_code_helper at line 1066 column 8
+    publish&gt;eval_code at line 983 column 30
+    publish at line 401 column 9
+ 
+warning: axis: omitting non-positive data in log plot
+warning: called from
+    legend at line 302 column 8
+    publish&gt;eval_code_helper at line 1066 column 8
+    publish&gt;eval_code at line 983 column 30
+    publish at line 401 column 9
+ 
+</pre>
+<img src="actividad_a8-1.png" alt="actividad_a8-1.png">
+<footer>
+<hr>
+<a href="https://www.octave.org">Published with GNU Octave 6.2.0</a>
+</footer>
+<!--
+##### SOURCE BEGIN #####
+fun = @(x) 3*x^2 * sin(x) * e^(-2*x);
+dfun = @(x) 6*x*sin(x)*e^(-2*x) + 3*x^2*cos(x)*e^(-2*x) - 6*x^2*sin(x)*e^(-2*x);
+
+set(gca, "linewidth", 1.5, "fontsize", 32)
+xlabel ("h", "fontsize", 60);
+ylabel ("Relative Error", "fontsize", 60);
+
+grid on;
+hold on;
+
+value = dfun(0.5)
+
+h = linspace(0.00001, 0.001, 1000);
+
+errBac = @(xs) (der_backward(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errBac(h), h));
+
+errCen = @(xs) (der_cent(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errCen(h), h));
+
+errCmp = @(xs) (der_cmplx(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errCmp(h), h));
+
+errFor = @(xs) (der_forward(fun, 0.5, xs) - value) / value;
+semilogy(h, arrayfun(@(h) errFor(h), h));
+
+legend("Backward", "Cent", "Cmplx", "Forward", "location", "northeast");
+
+t = linspace(0, 3.5, 350);
+#plot(t, arrayfun(@(t) fun(t), t));
+#plot(t, arrayfun(@(t) dfun(t), t));
+
+h = 0.05;
+for i = h
+    #plot(t, arrayfun(@(t) der_backward(fun, t, i), t));
+    #plot(t, arrayfun(@(t) der_cent(fun, t, i), t));
+    #plot(t, arrayfun(@(t) der_cmplx(fun, t, i), t));
+    #plot(t, arrayfun(@(t) der_forward(fun, t, i), t));
+
+   # bacAprox = der_backward(fun, 0.5, i)
+   # bacError = (bacAprox - value) / value
+   # cenAprox = der_cent(fun, 0.5, i)
+   # cenError = (cenAprox - value) / value
+   # cmpAprox = der_cmplx(fun, 0.5, i)
+   # cmpError = (cmpAprox - value) / value
+   # forAprox = der_forward(fun, 0.5, i)
+   # forError = (forAprox - value) / value
+endfor
+##### SOURCE END #####
+-->
+</body>
+</html>

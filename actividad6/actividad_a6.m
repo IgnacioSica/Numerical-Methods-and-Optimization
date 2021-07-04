@@ -20,9 +20,9 @@ x = 100;
 pValue = 90;
 
 xL = 0;
-xU = 100;
+xU = 3;
 maxI = 100;
-minE = 10e-8;
+minE = 10e-6;
 
 disp("bisection")
 tic();

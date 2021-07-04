@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Actividad $A_7$.</title>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: 'all' } }
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<style>
+body > * {
+  max-width: 42em;
+}
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  padding-left: 7.5em;
+  padding-right: 7.5em;
+}
+pre, code {
+  max-width: 50em;
+  font-family: monospace;
+}
+pre.oct-code {
+  border: 1px solid Grey;
+  padding: 5px;
+}
+pre.oct-code-output {
+  margin-left: 2em;
+}
+span.comment {
+  color: ForestGreen;
+}
+span.keyword {
+  color: Blue;
+}
+span.string {
+  color: DarkOrchid;
+}
+footer {
+  margin-top: 2em;
+  font-size: 80%;
+}
+a, a:visited {
+  color: Blue;
+}
+h2 {
+  font-family: "Roboto Condensed", serif;
+  margin-top: 1.5em;
+}
+h2 a, h2 a:visited {
+  color: Black;
+}
+</style>
+
+</head>
+<body>
+<h1>Actividad $A_7$.</h1>
+
+<p><b>Optimizacion 1</b></p>
+
+<p>Ignacio Sica</p>
+
+<p>17/06/21</p>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#node1">Problema 1</a></li>
+<li><a href="#node2">Problema 2</a></li>
+<li><a href="#node3">Bibliografia</a></li>
+<li><a href="#node4">Codigo golden_mean</a></li>
+<li><a href="#node5">Codigo gradient_descent</a></li>
+<li><a href="#node6">Codigo newton</a></li>
+<li><a href="#node7">Codigo quadratic</a></li>
+</ul>
+<h2><a id="node1">Problema 1</a></h2>
+<p>En este problema se pedia hallar un minimizador para la funcion dada a traves de los
+3 metodos de optimizacion vistos en clase, el metodo de newton, la busqueda dorada y
+el metodo de optimizacion cuadratica. En el proceso pude observar como los 3 metodos
+funcionan de la manera esperada pero sin embargo hay grandes diferencias entre ellos
+con lo que respecta a la eficiencia de los algoritmos y la rapidez. Primero esta el
+metodo de newton, este, mas alla de ser el mas rapido, es tambien el que precisa menor
+numero de iteraciones. Luego se encuentra el segundo algoritmo de optimizacio, el de
+busqueda dorada. Este requiere de muchas mas iteraciones que sus contrapartes, sin
+embargo, es el unico que matematicamente puede asegurar un limite en las iteraciones,
+es decir, hay un numero maximo de itaraciones necesarias para hayar el resultado. En
+este caso precisa de 32 iteraciones. Por ultimo esta el metodo cuadratico, este,
+a pesar de solo precisar de 4 iteraciones mas que newton, demora mas de 7 veces el
+tiempo que el primero. Esto se debe a que en cara iteracion se hacen operaciones
+muy costosas con respecto a las que se realizan en cada iteracion de newton. Este
+metodo tambien demora mas que el de busqueda dorada que precisa de 4 veces mas iteraciones.
+En la grafica aparace solo un punto ya que los 3 metodos dan el mismo resultado.</p>
+
+<pre class="oct-code">disp(<span class="string">"Problema 1:"</span>)
+
+t = linspace(-2, 2, 5000);
+hold on
+plot(t, arrayfun(@(t) f(t), t));
+grid on;
+
+x = 1.2;
+pValue = 1.4;
+ppValue = 1.6;
+
+xL = 0;
+xU = 5;
+maxI = 50;
+minE = 10e-7;
+
+disp(<span class="string">"newton"</span>)
+tic();
+[state, val, iCounter] = newton(x, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
+plot(val,f(val),<span class="string">'r*'</span>)
+
+disp(<span class="string">"golden_mean"</span>)
+tic();
+[state, val, iCounter] = golden_mean(xL, xU, <span class="string">"minimization"</span>, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
+plot(val,f(val),<span class="string">'r*'</span>)
+
+disp(<span class="string">"quadratic"</span>)
+tic();
+[state, val, iCounter] = quadratic(x, pValue, ppValue, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)
+plot(val,f(val),<span class="string">'r*'</span>)</pre>
+
+<pre class="oct-code-output">Problema 1:
+newton
+state = success
+val = 1.1265
+iCounter = 4
+Time elapsed: 0.000403881s
+golden_mean
+state = success
+val = 1.1265
+iCounter = 32
+Time elapsed: 0.000885963s
+quadratic
+state = success
+val = 1.1265
+iCounter = 8
+Time elapsed: 0.00455117s
+</pre>
+<img src="actividad_a7-1.png" alt="actividad_a7-1.png"><h2><a id="node2">Problema 2</a></h2>
+<p>En este ejercicio se pide optimizar una funcion de dos variables. Esta optimizacion
+se realiza mediante el metodo  de descenso por gradiente. Este metodo depende
+internamente de otro metodo (paso optimo) que a su vez es un metodo de optimizacion
+de una sola variable. Cabe destacar que el metodo funciona igual sin este segundo metodo
+pero demora de mucho mas tiempo para hallar el resultado y tambien mas iteraciones.</p>
+
+<pre class="oct-code">disp(<span class="string">"Problema 2:"</span>)
+
+maxI = 50;
+minE = 10e-6;
+x1 = 1;
+x2 = -3;
+xv = [x1;x2];
+
+disp(<span class="string">"gradient_descent"</span>)
+tic();
+[state, x, iCounter] = gradient_descent(xv, maxI, minE)
+time = toc ();
+printf(<span class="string">"Time elapsed: %ds"</span>, time), disp(<span class="string">""</span>)</pre>
+
+<pre class="oct-code-output">Problema 2:
+gradient_descent
+state = success
+x =
+ 
+   2.0000
+   1.0000
+ 
+iCounter = 23
+Time elapsed: 0.0622461s
+</pre>
+<h2><a id="node3">Bibliografia</a></h2>
+<p><b>Eric Walter</b>, Springer, Numerical Methods and Optimization</p>
+
+<p><b>Richard Khoury</b> &amp; Douglas Wilhelm Harder, Springer
+    Numerical Methods and Modelling for Engineering</p>
+
+<p><b>Gaussï¿½Seidel method</b>, Wikipedia,
+    (https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)</p>
+
+<p><b>Norm (mathematics)</b>, Wikipedia
+    (https://en.wikipedia.org/wiki/Norm_(mathematics))</p>
+
+<p><b>Javier Segura</b>, Universidad de Cantabria, Introduccion al analisis numerico
+    (https://personales.unican.es/segurajj/intro.pdf)</p>
+
+<p><b>Errors for Linear Systems</b>
+    (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)</p>
+
+<p><b>Inv Function</b>
+    (https://octave.sourceforge.io/octave/function/inv.html)</p>
+
+<p>https://www.unioviedo.es/compnum/labs/PYTHON/Interpolation.html
+https://www.youtube.com/watch?v=Az2jhvu2i2I
+http://www.ugr.es/~mpasadas/ftp/Inter2.pdf</p>
+<h2><a id="node4">Codigo golden_mean</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = golden_mean(xL, xU, pType, maxI, minE)
+
+x0 = 0.6180 * xL + (1 - 0.6180) * xU;
+x1 = (1 - 0.6180) * xL + 0.6180 * xU;
+
+iCounter = 0;
+
+<span class="keyword">while</span>(1==1)
+
+    <span class="keyword">if</span>(pType = <span class="string">"minimization"</span>)
+        <span class="keyword">if</span>(f(x0) &lt; f(x1))
+            xU = x1;
+            x1 = x0;
+            x0 = 0.6180 * xL + (1 - 0.6180) * xU;
+        <span class="keyword">elseif</span>
+            xL = x0;
+            x0 = x1;
+            x1 = (1 - 0.6180) * xL + 0.6180 * xU;
+        <span class="keyword">endif</span>
+    <span class="keyword">endif</span>
+
+    cError = abs(xU - xL);
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x0;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x1;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span></pre>
+<h2><a id="node5">Codigo gradient_descent</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = gradient_descent(x, maxI, minE)
+
+iCounter = 0;
+<span class="keyword">while</span>(1==1)
+    h = optimalStep(x);
+    xh = x - h * evalGradient(x);
+    pValue = x;
+    x = xh;
+
+    cError = norm(x-pValue);
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node6">Codigo newton</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = newton (x, maxI, minE)
+
+iCounter = 0;
+<span class="keyword">while</span>(1==1)
+
+    pValue = x;
+    x = x - (df(x) / ddf(x));
+
+    cError = abs((x-pValue) / x);
+    <span class="comment">%cError = abs(max((x-pValue), (fun(x) - fun(pValue))));</span>
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span> </pre>
+<h2><a id="node7">Codigo quadratic</a></h2>
+<pre class="pre-code"><span class="keyword">function</span> [state, val, iCounter] = quadratic (x, pValue, ppValue, maxI, minE)
+
+c = [ppValue; pValue; x];
+
+iCounter = 0;
+<span class="keyword">while</span>(1==1)
+
+    V = fliplr(vander(c));
+    Y = [f(ppValue); f(pValue); f(x)];
+    C = sem_plu(V,Y);
+
+    c(1) = c(2);
+    c(2) = c(3);
+    c(3) = (-1 * (C(2))) / (2 * C(3));
+
+    ppValue = pValue;
+    pValue = x;
+    x = (-1 * (C(2))) / (2 * C(3));
+    
+    cError = abs((x-pValue) / x);
+    iCounter = iCounter + 1;
+
+    <span class="keyword">if</span>(cError &lt;= minE)
+        val = x;
+        state = <span class="string">"success"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+    <span class="keyword">if</span>(iCounter &gt;= maxI)
+        val = x;
+        state = <span class="string">"failure"</span>;
+        return;
+    <span class="keyword">endif</span>
+
+<span class="keyword">endwhile</span>
+
+<span class="keyword">endfunction</span></pre>
+
+<footer>
+<hr>
+<a href="https://www.octave.org">Published with GNU Octave 6.2.0</a>
+</footer>
+<!--
+##### SOURCE BEGIN #####
+%% Actividad $A_7$.
+% *Optimizacion 1*
+%
+% Ignacio Sica
+%
+% 17/06/21
+
+%% Problema 1
+% En este problema se pedia hallar un minimizador para la funcion dada a traves de los
+% 3 metodos de optimizacion vistos en clase, el metodo de newton, la busqueda dorada y
+% el metodo de optimizacion cuadratica. En el proceso pude observar como los 3 metodos
+% funcionan de la manera esperada pero sin embargo hay grandes diferencias entre ellos
+% con lo que respecta a la eficiencia de los algoritmos y la rapidez. Primero esta el
+% metodo de newton, este, mas alla de ser el mas rapido, es tambien el que precisa menor
+% numero de iteraciones. Luego se encuentra el segundo algoritmo de optimizacio, el de
+% busqueda dorada. Este requiere de muchas mas iteraciones que sus contrapartes, sin
+% embargo, es el unico que matematicamente puede asegurar un limite en las iteraciones,
+% es decir, hay un numero maximo de itaraciones necesarias para hayar el resultado. En
+% este caso precisa de 32 iteraciones. Por ultimo esta el metodo cuadratico, este,
+% a pesar de solo precisar de 4 iteraciones mas que newton, demora mas de 7 veces el
+% tiempo que el primero. Esto se debe a que en cara iteracion se hacen operaciones
+% muy costosas con respecto a las que se realizan en cada iteracion de newton. Este
+% metodo tambien demora mas que el de busqueda dorada que precisa de 4 veces mas iteraciones.
+% En la grafica aparace solo un punto ya que los 3 metodos dan el mismo resultado.
+
+disp("Problema 1:")
+
+t = linspace(-2, 2, 5000);
+hold on
+plot(t, arrayfun(@(t) f(t), t));
+grid on;
+
+x = 1.2;
+pValue = 1.4;
+ppValue = 1.6;
+
+xL = 0;
+xU = 5;
+maxI = 50;
+minE = 10e-7;
+
+disp("newton")
+tic();
+[state, val, iCounter] = newton(x, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+plot(val,f(val),'r*')
+
+disp("golden_mean")
+tic();
+[state, val, iCounter] = golden_mean(xL, xU, "minimization", maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+plot(val,f(val),'r*')
+
+disp("quadratic")
+tic();
+[state, val, iCounter] = quadratic(x, pValue, ppValue, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+plot(val,f(val),'r*')
+
+%% Problema 2
+% En este ejercicio se pide optimizar una funcion de dos variables. Esta optimizacion
+% se realiza mediante el metodo  de descenso por gradiente. Este metodo depende
+% internamente de otro metodo (paso optimo) que a su vez es un metodo de optimizacion
+% de una sola variable. Cabe destacar que el metodo funciona igual sin este segundo metodo
+% pero demora de mucho mas tiempo para hallar el resultado y tambien mas iteraciones.
+
+disp("Problema 2:")
+
+maxI = 50;
+minE = 10e-6;
+x1 = 1;
+x2 = -3;
+xv = [x1;x2];
+
+disp("gradient_descent")
+tic();
+[state, x, iCounter] = gradient_descent(xv, maxI, minE)
+time = toc ();
+printf("Time elapsed: %ds", time), disp("")
+
+%% Bibliografia
+% *Eric Walter*, Springer, Numerical Methods and Optimization
+%
+% *Richard Khoury* & Douglas Wilhelm Harder, Springer
+%     Numerical Methods and Modelling for Engineering
+%
+% *Gaussï¿½Seidel method*, Wikipedia,
+%     (https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
+%
+% *Norm (mathematics)*, Wikipedia
+%     (https://en.wikipedia.org/wiki/Norm_(mathematics))
+%
+% *Javier Segura*, Universidad de Cantabria, Introduccion al analisis numerico
+%     (https://personales.unican.es/segurajj/intro.pdf)
+%
+% *Errors for Linear Systems*
+%     (http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf)
+%
+% *Inv Function*
+%     (https://octave.sourceforge.io/octave/function/inv.html)
+%
+% https://www.unioviedo.es/compnum/labs/PYTHON/Interpolation.html
+% https://www.youtube.com/watch?v=Az2jhvu2i2I
+% http://www.ugr.es/~mpasadas/ftp/Inter2.pdf
+
+%% Codigo golden_mean
+# <include>golden_mean.m</include>
+
+%% Codigo gradient_descent
+# <include>gradient_descent.m</include>
+
+%% Codigo newton
+# <include>newton.m</include>
+
+%% Codigo quadratic
+# <include>quadratic.m</include>
+##### SOURCE END #####
+-->
+</body>
+</html>
